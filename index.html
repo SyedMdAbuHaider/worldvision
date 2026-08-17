@@ -173,7 +173,7 @@
     background:
       radial-gradient(700px 320px at 85% -10%, rgba(200,169,81,0.10), transparent 60%),
       linear-gradient(180deg, var(--wv-primary-tint) 0%, var(--wv-bg) 100%);
-    padding:56px 0 64px; border-bottom:1px solid var(--wv-border); position:relative; overflow:hidden;
+    padding:56px 0 64px; border-bottom:1px solid var(--wv-border); position:relative;
   }
   .hero::before{
     content:''; position:absolute; top:-140px; right:-120px; width:420px; height:420px; border-radius:50%;
@@ -197,7 +197,7 @@
   .hero-stat b{display:block; font-size:22px; color:var(--wv-primary-dark); font-weight:800; letter-spacing:-0.01em;}
   .hero-stat span{font-size:12px; color:var(--wv-text-muted);}
 
-  .hero-visual-wrap{position:relative; padding:20px 10px;}
+  .hero-visual-wrap{position:relative; padding:20px 10px 44px;}
   .hero-visual{
     background:linear-gradient(165deg,#ffffff 0%, #fbfdfc 100%); border-radius:var(--radius-xl); border:1px solid var(--wv-border);
     box-shadow:var(--shadow-lg); padding:26px; position:relative; z-index:2;
@@ -217,8 +217,8 @@
   }
   .floating-chip svg{width:16px;height:16px; flex-shrink:0;}
   .chip-1{top:-14px; left:-18px; color:var(--wv-success); animation-delay:0s;}
-  .chip-2{bottom:36px; right:-24px; color:var(--wv-primary-dark); animation-delay:1.4s;}
-  .chip-3{bottom:-16px; left:18px; color:var(--wv-info); animation-delay:2.6s;}
+  .chip-2{bottom:-18px; right:-16px; color:var(--wv-primary-dark); animation-delay:1.4s;}
+  .chip-3{bottom:-4px; left:60px; color:var(--wv-info); animation-delay:2.6s;}
   @keyframes floatChip{0%,100%{transform:translateY(0);} 50%{transform:translateY(-7px);}}
 
   section.section{padding:56px 0;}
