@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>World Vision Finance — সহজ ও স্বচ্ছ ঋণ সেবা</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wv-primary:#087F6A;
+    --wv-primary-deep:#075E54;
+    --wv-primary-dark:#073B3A;
+    --wv-primary-hover:#066B58;
+    --wv-primary-soft:#E5F1EE;
+    --wv-primary-tint:#F1F8F6;
+
+    --wv-gold:#C8A951;
+    --wv-gold-dark:#9C7F35;
+    --wv-gold-soft:#F8F1DE;
+
+    --wv-bg:#F7F8FA;
+    --wv-surface:#FFFFFF;
+
+    --wv-text:#10201D;
+    --wv-text-secondary:#64716E;
+    --wv-text-muted:#8A9693;
+    --wv-border:#E2E8E6;
+
+    --wv-success:#16865B;
+    --wv-warning:#B7791F;
+    --wv-error:#C0392B;
+    --wv-info:#256B8F;
+
+    --radius-sm:10px;
+    --radius-md:14px;
+    --radius-lg:20px;
+    --radius-xl:28px;
+    --radius-pill:999px;
+
+    --shadow-sm:0 2px 8px rgba(7,59,58,0.07);
+    --shadow-md:0 8px 24px rgba(7,59,58,0.10);
+    --shadow-lg:0 24px 60px rgba(7,59,58,0.16);
+
+    --header-h:72px;
+    --bottomnav-h:72px;
+    --ease:cubic-bezier(0.2,0.8,0.2,1);
+    --container-w:1200px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;
+    background:var(--wv-bg);
+    color:var(--wv-text);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.65;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif; margin:0; letter-spacing:-0.01em; font-weight:800;}
+  p{margin:0;}
+  button{font-family:inherit;}
+  a{text-decoration:none;color:inherit;}
+  img{max-width:100%;display:block;}
+  ::selection{background:var(--wv-primary-soft); color:var(--wv-primary-dark);}
+  :focus-visible{outline:2.5px solid var(--wv-info); outline-offset:2px; border-radius:6px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important;}
+  }
+
+  /* ===== Utility ===== */
+  .container{max-width:var(--container-w); margin:0 auto; padding:0 24px;}
+  .visually-hidden{position:absolute; width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
+  .badge{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; padding:6px 13px; border-radius:var(--radius-pill); line-height:1;}
+  .badge-soft{background:var(--wv-primary-soft); color:var(--wv-primary-deep);}
+  .badge-gold{background:var(--wv-gold-soft); color:var(--wv-gold-dark);}
+  .badge-warn{background:#FBEFDD; color:var(--wv-warning);}
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:9px;
+    font-weight:600; font-size:15.5px; border-radius:var(--radius-md); border:none; cursor:pointer;
+    padding:14px 24px; transition:transform .18s var(--ease), background .18s var(--ease), box-shadow .18s var(--ease), border-color .18s var(--ease), color .18s var(--ease);
+    min-height:50px; white-space:nowrap;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--wv-primary-deep); color:#fff; box-shadow:0 6px 18px rgba(7,94,84,0.28);}
+  .btn-primary:hover{background:var(--wv-primary-dark); box-shadow:0 8px 22px rgba(7,94,84,0.36); transform:translateY(-1px);}
+  .btn-secondary{background:var(--wv-primary-soft); color:var(--wv-primary-deep);}
+  .btn-secondary:hover{background:#d9ece7;}
+  .btn-ghost{background:transparent; color:var(--wv-text-secondary); border:1.5px solid var(--wv-border);}
+  .btn-ghost:hover{border-color:var(--wv-primary); color:var(--wv-primary-deep); background:var(--wv-primary-tint);}
+  .btn-gold{background:var(--wv-gold); color:#3a2f10;}
+  .btn-gold:hover{background:#bb9640;}
+  .btn-block{width:100%;}
+  .btn-sm{padding:10px 18px; font-size:13.5px; min-height:38px; border-radius:var(--radius-sm);}
+  .btn:disabled{opacity:.5; cursor:not-allowed; transform:none !important;}
+
+  .card{background:var(--wv-surface); border:1px solid var(--wv-border); border-radius:var(--radius-lg); box-shadow:var(--shadow-sm); transition:box-shadow .2s var(--ease), border-color .2s var(--ease), transform .2s var(--ease);}
+  .icon{width:20px;height:20px; stroke-width:2; flex-shrink:0;}
+
+  /* ===== App shell ===== */
+  #app{min-height:100vh; display:flex; flex-direction:column;}
+
+  header.topbar{
+    position:sticky; top:0; z-index:40; background:rgba(255,255,255,0.86); backdrop-filter:blur(14px) saturate(160%); -webkit-backdrop-filter:blur(14px) saturate(160%);
+    border-bottom:1px solid transparent; height:var(--header-h); transition:box-shadow .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease);
+  }
+  header.topbar.scrolled{border-bottom-color:var(--wv-border); box-shadow:0 4px 20px rgba(7,59,58,0.06);}
+  .topbar-inner{height:100%; display:flex; align-items:center; justify-content:space-between; gap:16px;}
+  .brand{display:flex; align-items:center; gap:11px; font-weight:800; font-size:18px; color:var(--wv-primary-dark); letter-spacing:-0.01em;}
+  .brand-mark{width:38px;height:38px;border-radius:11px; background:linear-gradient(155deg,var(--wv-primary) 0%,var(--wv-primary-dark) 100%); display:flex;align-items:center;justify-content:center;color:#fff; flex-shrink:0; box-shadow:0 4px 12px rgba(7,59,58,0.25); position:relative;}
+  .brand-mark::after{content:'';position:absolute; inset:-3px; border-radius:14px; border:1.5px solid var(--wv-gold); opacity:.55;}
+  .brand-mark svg{width:20px;height:20px;}
+  .brand small{display:block; font-size:10px; font-weight:600; color:var(--wv-text-muted); letter-spacing:.04em; margin-top:1px;}
+
+  nav.desktop-nav{display:none; align-items:center; gap:34px;}
+  nav.desktop-nav a{font-weight:600; font-size:14.5px; color:var(--wv-text-secondary); padding:10px 2px; border-bottom:2px solid transparent; cursor:pointer; transition:color .15s;}
+  nav.desktop-nav a.active, nav.desktop-nav a:hover{color:var(--wv-primary-dark); border-color:var(--wv-primary);}
+
+  .topbar-actions{display:flex; align-items:center; gap:10px;}
+  .icon-btn{width:42px;height:42px;border-radius:var(--radius-sm); border:1px solid var(--wv-border); background:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--wv-text-secondary); position:relative; transition:border-color .15s, color .15s;}
+  .icon-btn:hover{border-color:var(--wv-primary); color:var(--wv-primary-dark);}
+  .dot-alert{position:absolute; top:7px; right:7px; width:8px;height:8px; border-radius:50%; background:var(--wv-error); border:1.5px solid #fff;}
+  .mobile-only{display:inline-flex;}
+  .desktop-only{display:none;}
+
+  main{flex:1; padding-bottom: calc(var(--bottomnav-h) + 16px);}
+
+  /* Bottom nav (mobile, app-like) */
+  nav.bottom-nav{
+    position:fixed; bottom:0; left:0; right:0; z-index:50; height:var(--bottomnav-h);
+    background:rgba(255,255,255,0.96); backdrop-filter:blur(16px); border-top:1px solid var(--wv-border);
+    display:flex; align-items:center; justify-content:space-around;
+    padding-bottom:env(safe-area-inset-bottom); box-shadow:0 -6px 24px rgba(7,59,58,0.06);
+  }
+  nav.bottom-nav button{
+    background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:4px;
+    color:var(--wv-text-muted); font-size:11px; font-weight:600; padding:6px 4px; cursor:pointer; flex:1;
+    transition:color .15s var(--ease);
+  }
+  nav.bottom-nav button.active{color:var(--wv-primary-dark);}
+  nav.bottom-nav svg{width:22px;height:22px; stroke-width:2; transition:transform .15s var(--ease);}
+  nav.bottom-nav button.active svg{transform:translateY(-1px);}
+  nav.bottom-nav button.nav-emphasis{position:relative;}
+  nav.bottom-nav button.nav-emphasis .emphasis-circle{
+    width:46px;height:46px;border-radius:50%; background:linear-gradient(155deg,var(--wv-primary),var(--wv-primary-dark));
+    display:flex; align-items:center; justify-content:center; margin-top:-26px; box-shadow:0 8px 18px rgba(7,94,84,0.4);
+    border:3px solid #fff;
+  }
+  nav.bottom-nav button.nav-emphasis .emphasis-circle svg{width:20px;height:20px; color:#fff; stroke-width:2.4;}
+  nav.bottom-nav button.nav-emphasis span{margin-top:2px;}
+
+  /* ===== Pages ===== */
+  .page{display:none; animation:fadeIn .32s var(--ease);}
+  .page.active{display:block;}
+  @keyframes fadeIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);}}
+
+  /* Demo banner */
+  .demo-banner{
+    background:linear-gradient(90deg, var(--wv-gold-soft), #fbf6e9, var(--wv-gold-soft));
+    color:var(--wv-gold-dark); text-align:center; font-size:12.5px; font-weight:600; padding:9px 14px;
+    border-bottom:1px solid #eee0bd; display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .demo-banner svg{width:14px;height:14px; flex-shrink:0;}
+
+  /* Hero */
+  .hero{
+    background:
+      radial-gradient(700px 320px at 85% -10%, rgba(200,169,81,0.10), transparent 60%),
+      linear-gradient(180deg, var(--wv-primary-tint) 0%, var(--wv-bg) 100%);
+    padding:56px 0 64px; border-bottom:1px solid var(--wv-border); position:relative; overflow:hidden;
+  }
+  .hero::before{
+    content:''; position:absolute; top:-140px; right:-120px; width:420px; height:420px; border-radius:50%;
+    background:radial-gradient(circle, rgba(8,127,106,0.07), transparent 70%); pointer-events:none;
+  }
+  .hero::after{
+    content:''; position:absolute; bottom:-160px; left:-140px; width:380px; height:380px; border-radius:50%;
+    background:radial-gradient(circle, rgba(200,169,81,0.08), transparent 70%); pointer-events:none;
+  }
+  .hero-inner{display:flex; flex-direction:column; gap:28px; position:relative; z-index:1;}
+  .eyebrow{display:flex; align-items:center; gap:8px; color:var(--wv-primary-deep); font-weight:700; font-size:12.5px; letter-spacing:.06em; text-transform:uppercase;}
+  .hero h1{font-size:32px; font-weight:800; color:var(--wv-text); line-height:1.26; letter-spacing:-0.015em;}
+  .hero p.sub{color:var(--wv-text-secondary); font-size:16px; max-width:520px; margin-top:14px;}
+  .hero-ctas{display:flex; gap:12px; flex-wrap:wrap; margin-top:22px;}
+  .hero-trust-row{display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:20px; font-size:12.5px; color:var(--wv-text-muted);}
+  .hero-trust-row span{display:flex; align-items:center; gap:6px;}
+  .hero-trust-row svg{width:15px;height:15px; color:var(--wv-primary);}
+  .hero-stats{display:flex; gap:0; margin-top:30px; flex-wrap:wrap; border-top:1px solid var(--wv-border); padding-top:22px;}
+  .hero-stat{padding:0 24px 0 0; margin-right:24px; border-right:1px solid var(--wv-border);}
+  .hero-stat:last-child{border-right:none; margin-right:0; padding-right:0;}
+  .hero-stat b{display:block; font-size:22px; color:var(--wv-primary-dark); font-weight:800; letter-spacing:-0.01em;}
+  .hero-stat span{font-size:12px; color:var(--wv-text-muted);}
+
+  .hero-visual-wrap{position:relative; padding:20px 10px;}
+  .hero-visual{
+    background:linear-gradient(165deg,#ffffff 0%, #fbfdfc 100%); border-radius:var(--radius-xl); border:1px solid var(--wv-border);
+    box-shadow:var(--shadow-lg); padding:26px; position:relative; z-index:2;
+  }
+  .hv-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;}
+  .hv-brand{display:flex; align-items:center; gap:8px; font-size:12.5px; font-weight:700; color:var(--wv-primary-dark);}
+  .hv-brand .hv-dot{width:8px;height:8px;border-radius:50%; background:var(--wv-success);}
+  .hv-amount-label{font-size:12px; color:var(--wv-text-muted); margin-bottom:6px;}
+  .hv-amount{font-size:32px; font-weight:800; color:var(--wv-text); letter-spacing:-0.01em;}
+  .hv-sub{font-size:12.5px; color:var(--wv-text-muted); margin:8px 0 18px;}
+  .hv-footer{display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;}
+
+  .floating-chip{
+    position:absolute; background:#fff; border:1px solid var(--wv-border); border-radius:var(--radius-md);
+    box-shadow:var(--shadow-md); padding:10px 14px; font-size:12px; font-weight:700; color:var(--wv-text);
+    display:flex; align-items:center; gap:8px; z-index:3; animation:floatChip 5s ease-in-out infinite;
+  }
+  .floating-chip svg{width:16px;height:16px; flex-shrink:0;}
+  .chip-1{top:-14px; left:-18px; color:var(--wv-success); animation-delay:0s;}
+  .chip-2{bottom:36px; right:-24px; color:var(--wv-primary-dark); animation-delay:1.4s;}
+  .chip-3{bottom:-16px; left:18px; color:var(--wv-info); animation-delay:2.6s;}
+  @keyframes floatChip{0%,100%{transform:translateY(0);} 50%{transform:translateY(-7px);}}
+
+  section.section{padding:56px 0;}
+  .section-head{margin-bottom:30px; display:flex; flex-direction:column; gap:8px;}
+  .section-head h2{font-size:25px; font-weight:800;}
+  .section-head p{color:var(--wv-text-secondary); font-size:14.5px;}
+
+  .grid{display:grid; gap:18px; grid-template-columns:1fr;}
+  @media(min-width:640px){.grid-2{grid-template-columns:1fr 1fr;}}
+  @media(min-width:900px){.grid-3{grid-template-columns:1fr 1fr 1fr;} .grid-4{grid-template-columns:repeat(4,1fr);}}
+
+  .loan-card{padding:24px; display:flex; flex-direction:column; gap:16px; position:relative; overflow:hidden;}
+  .loan-card:hover{box-shadow:var(--shadow-md); border-color:var(--wv-primary); transform:translateY(-3px);}
+  .loan-card .lc-top{display:flex; align-items:flex-start; justify-content:space-between;}
+  .loan-card .lc-icon{width:48px;height:48px;border-radius:13px; background:var(--wv-primary-soft); display:flex;align-items:center;justify-content:center; color:var(--wv-primary-deep); transition:transform .2s var(--ease);}
+  .loan-card:hover .lc-icon{transform:scale(1.08) rotate(-4deg);}
+  .loan-card h3{font-size:18px; font-weight:700;}
+  .loan-range{font-size:20px; font-weight:800; color:var(--wv-primary-dark); letter-spacing:-0.01em;}
+  .loan-meta{display:flex; gap:20px; padding-top:12px; border-top:1px dashed var(--wv-border);}
+  .loan-meta div span{display:block; font-size:11.5px; color:var(--wv-text-muted);}
+  .loan-meta div b{font-size:14px; font-weight:700;}
+  .lc-cta{display:flex; align-items:center; justify-content:space-between; font-weight:700; font-size:13.5px; color:var(--wv-primary-deep); cursor:pointer; padding-top:4px;}
+  .lc-cta svg{width:16px;height:16px; transition:transform .2s var(--ease);}
+  .loan-card:hover .lc-cta svg{transform:translateX(4px);}
+
+  .feature-card{padding:22px; display:flex; flex-direction:column; gap:10px;}
+  .feature-card .f-icon{width:44px;height:44px;border-radius:12px; background:var(--wv-primary-soft); color:var(--wv-primary-deep); display:flex;align-items:center;justify-content:center;}
+  .feature-card h4{font-size:15px; font-weight:700;}
+  .feature-card p{font-size:13.5px; color:var(--wv-text-secondary);}
+
+  /* Trust asymmetric section */
+  .trust-asym{display:grid; grid-template-columns:1fr; gap:20px;}
+  @media(min-width:900px){.trust-asym{grid-template-columns:1fr 1.1fr; align-items:stretch;}}
+  .trust-hero-panel{
+    background:linear-gradient(155deg, var(--wv-primary-dark), var(--wv-primary-deep) 60%, var(--wv-primary));
+    border-radius:var(--radius-xl); padding:36px 32px; color:#fff; display:flex; flex-direction:column; justify-content:center; gap:14px; position:relative; overflow:hidden;
+  }
+  .trust-hero-panel::after{content:''; position:absolute; right:-60px; bottom:-60px; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle, rgba(200,169,81,0.22), transparent 70%);}
+  .trust-hero-panel h3{font-size:24px; line-height:1.35; position:relative; z-index:1;}
+  .trust-hero-panel p{font-size:14px; color:rgba(255,255,255,0.82); position:relative; z-index:1; max-width:400px;}
+  .trust-mini-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .trust-mini-item{background:#fff; border:1px solid var(--wv-border); border-radius:var(--radius-md); padding:18px; display:flex; flex-direction:column; gap:10px; transition:border-color .2s, transform .2s;}
+  .trust-mini-item:hover{border-color:var(--wv-primary); transform:translateY(-2px);}
+  .trust-mini-item .t-ic{width:36px;height:36px;border-radius:10px; background:var(--wv-primary-soft); color:var(--wv-primary-deep); display:flex;align-items:center;justify-content:center;}
+  .trust-mini-item h4{font-size:14px; font-weight:700;}
+  .trust-mini-item p{font-size:12.5px; color:var(--wv-text-secondary);}
+
+  /* How it works — timeline */
+  .timeline-row{display:flex; flex-direction:column; gap:0; position:relative;}
+  @media(min-width:760px){
+    .timeline-row{flex-direction:row; align-items:flex-start;}
+  }
+  .timeline-node{flex:1; display:flex; flex-direction:column; align-items:flex-start; gap:12px; position:relative; padding:0 0 30px 0;}
+  @media(min-width:760px){ .timeline-node{padding:0 14px; align-items:center; text-align:center;} }
+  .timeline-node .t-num{width:40px;height:40px;border-radius:50%; background:var(--wv-primary-deep); color:#fff; display:flex;align-items:center;justify-content:center; font-weight:800; font-size:15px; box-shadow:0 6px 16px rgba(7,94,84,0.28); position:relative; z-index:2; flex-shrink:0;}
+  .timeline-node h4{font-size:15px; font-weight:700;}
+  .timeline-node p{font-size:13px; color:var(--wv-text-secondary); max-width:220px;}
+  .timeline-connector{position:absolute; background:var(--wv-border); z-index:1;}
+  .timeline-row .timeline-connector{left:19px; top:40px; bottom:0; width:2px;}
+  @media(min-width:760px){ .timeline-row .timeline-connector{left:0; right:0; top:20px; height:2px; width:auto; bottom:auto;} }
+  .timeline-node-wrap{display:flex; gap:14px; align-items:flex-start;}
+  @media(min-width:760px){.timeline-node-wrap{flex-direction:column; align-items:center;}}
+
+  /* Calculator */
+  .calc-wrap{padding:28px; display:grid; gap:28px; grid-template-columns:1fr;}
+  @media(min-width:820px){.calc-wrap{grid-template-columns:1.1fr 1fr;}}
+  .field{display:flex; flex-direction:column; gap:8px; margin-bottom:18px;}
+  .field label{font-size:13.5px; font-weight:600; color:var(--wv-text);}
+  .field .hint{font-size:12px; color:var(--wv-text-muted);}
+  input[type=range]{width:100%; accent-color:var(--wv-primary); height:6px; cursor:pointer;}
+  .range-value{display:flex; justify-content:space-between; font-size:12.5px; color:var(--wv-text-muted);}
+  .calc-result{
+    background:linear-gradient(165deg, var(--wv-primary-tint), #fff); border-radius:var(--radius-lg); padding:26px;
+    display:flex; flex-direction:column; gap:16px; border:1px solid var(--wv-primary-soft);
+  }
+  .calc-result .big{font-size:30px; font-weight:800; color:var(--wv-primary-dark); letter-spacing:-0.01em;}
+  .calc-result-row{display:flex; justify-content:space-between; font-size:13.5px; padding:9px 0; border-bottom:1px dashed var(--wv-primary-soft);}
+  .estimate-tag{font-size:11.5px; color:var(--wv-warning); background:#FBEFDD; padding:6px 11px; border-radius:8px; display:inline-flex; gap:6px; align-items:center; width:fit-content;}
+  .calc-donut-row{display:flex; align-items:center; gap:16px; padding:6px 0 4px;}
+  .calc-donut{width:64px;height:64px;border-radius:50%; flex-shrink:0; background:conic-gradient(var(--wv-primary-deep) 0deg, var(--wv-primary-deep) var(--donut-deg,260deg), var(--wv-gold) var(--donut-deg,260deg), var(--wv-gold) 360deg); position:relative;}
+  .calc-donut::after{content:''; position:absolute; inset:9px; border-radius:50%; background:#fff;}
+  .calc-donut-legend{display:flex; flex-direction:column; gap:6px; font-size:12px;}
+  .calc-donut-legend span{display:flex; align-items:center; gap:6px; color:var(--wv-text-secondary);}
+  .calc-donut-legend i{width:9px;height:9px;border-radius:2px; display:inline-block;}
+
+  /* Trust security strip */
+  .trust-strip{display:grid; grid-template-columns:1fr; gap:16px;}
+  @media(min-width:760px){.trust-strip{grid-template-columns:repeat(3,1fr);}}
+  .trust-item{display:flex; gap:14px; padding:20px; border:1px solid var(--wv-border); border-radius:var(--radius-md); background:#fff; transition:border-color .2s, transform .2s;}
+  .trust-item:hover{border-color:var(--wv-gold); transform:translateY(-2px);}
+  .trust-item .t-ic{width:40px;height:40px;border-radius:11px; background:var(--wv-gold-soft); color:var(--wv-gold-dark); display:flex;align-items:center;justify-content:center; flex-shrink:0;}
+  .trust-item h4{font-size:14.5px; font-weight:700; margin-bottom:4px;}
+  .trust-item p{font-size:12.5px; color:var(--wv-text-secondary);}
+
+  /* FAQ accordion */
+  .faq-item{border:1px solid var(--wv-border); border-radius:var(--radius-md); background:#fff; overflow:hidden; margin-bottom:12px; transition:border-color .2s;}
+  .faq-item:hover{border-color:var(--wv-primary);}
+  .faq-item.open{border-color:var(--wv-primary);}
+  .faq-q{display:flex; align-items:center; justify-content:space-between; padding:18px 20px; cursor:pointer; font-weight:700; font-size:14.5px; gap:14px;}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .3s var(--ease);}
+  .faq-a-inner{padding:0 20px 18px; font-size:13.5px; color:var(--wv-text-secondary); line-height:1.7;}
+  .faq-item.open .faq-a{max-height:220px;}
+  .faq-item.open .chev{transform:rotate(180deg); color:var(--wv-primary-deep);}
+  .chev{transition:transform .25s var(--ease); flex-shrink:0; color:var(--wv-text-muted);}
+
+  footer.site-footer{background:linear-gradient(175deg, var(--wv-primary-dark), #052625); color:#fff; padding:56px 0 26px; margin-top:20px;}
+  .footer-top{display:flex; align-items:center; gap:12px; margin-bottom:36px;}
+  .footer-brand-mark{width:38px;height:38px;border-radius:11px; background:rgba(255,255,255,0.1); display:flex;align-items:center;justify-content:center; color:var(--wv-gold); border:1px solid rgba(255,255,255,0.18);}
+  .footer-brand-text b{display:block; font-size:16px; font-weight:800;}
+  .footer-brand-text span{font-size:11.5px; color:rgba(255,255,255,0.6);}
+  .footer-grid{display:grid; grid-template-columns:1fr; gap:30px;}
+  @media(min-width:760px){.footer-grid{grid-template-columns:1.4fr 1fr 1fr 1fr;}}
+  .footer-about{font-size:13px; color:rgba(255,255,255,0.68); max-width:320px; line-height:1.8;}
+  .footer-grid h5{font-size:12.5px; font-weight:700; color:var(--wv-gold); margin-bottom:14px; letter-spacing:.04em; text-transform:uppercase;}
+  .footer-grid a{display:block; font-size:13.5px; color:rgba(255,255,255,0.82); margin-bottom:11px; cursor:pointer; transition:color .15s;}
+  .footer-grid a:hover{color:#fff;}
+  .footer-bottom{border-top:1px solid rgba(255,255,255,0.14); margin-top:32px; padding-top:20px; font-size:12px; color:rgba(255,255,255,0.55); display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between;}
+  .footer-disclaimer{font-size:11.5px; color:rgba(255,255,255,0.42); margin-top:14px; line-height:1.7; max-width:800px;}
+
+  /* ===== Loans listing ===== */
+  .page-header{padding:34px 0 10px;}
+  .page-header h1{font-size:25px; font-weight:800;}
+  .page-header p{color:var(--wv-text-secondary); font-size:14px; margin-top:8px;}
+
+  /* ===== Apply flow ===== */
+  .apply-shell{max-width:640px; margin:0 auto; padding:22px 20px 36px;}
+  .apply-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;}
+  .apply-top h2{font-size:18px; font-weight:700;}
+  .apply-step-label{font-size:12.5px; color:var(--wv-text-muted); font-weight:600;}
+  .progress-track{display:flex; align-items:center; margin:18px 0 28px;}
+  .progress-dot{width:28px;height:28px;border-radius:50%; background:#fff; border:2px solid var(--wv-border); display:flex; align-items:center; justify-content:center; font-size:11.5px; font-weight:700; color:var(--wv-text-muted); flex-shrink:0; transition:all .25s var(--ease);}
+  .progress-dot.done{background:var(--wv-primary-deep); border-color:var(--wv-primary-deep); color:#fff;}
+  .progress-dot.current{border-color:var(--wv-primary-deep); color:var(--wv-primary-dark); box-shadow:0 0 0 5px var(--wv-primary-soft);}
+  .progress-line{flex:1; height:2px; background:var(--wv-border); margin:0 3px; transition:background .25s var(--ease);}
+  .progress-line.done{background:var(--wv-primary-deep);}
+
+  .apply-layout{display:block;}
+  @media(min-width:960px){
+    .apply-layout{display:flex; align-items:flex-start; gap:44px; max-width:960px; margin:0 auto; padding:0 20px;}
+    .apply-shell{margin:0; padding:26px 0 40px; flex:1; max-width:560px;}
+    .apply-rail{width:230px; flex-shrink:0; position:sticky; top:calc(var(--header-h) + 26px); padding-top:26px;}
+  }
+  .apply-rail{display:none;}
+  @media(min-width:960px){.apply-rail{display:block;}}
+  .rail-item{display:flex; align-items:center; gap:12px; padding:12px 0; position:relative;}
+  .rail-item .rail-dot{width:28px;height:28px;border-radius:50%; border:2px solid var(--wv-border); display:flex; align-items:center; justify-content:center; font-size:11.5px; font-weight:700; color:var(--wv-text-muted); flex-shrink:0; background:#fff; transition:all .25s var(--ease);}
+  .rail-item.done .rail-dot{background:var(--wv-primary-deep); border-color:var(--wv-primary-deep); color:#fff;}
+  .rail-item.current .rail-dot{border-color:var(--wv-primary-deep); color:var(--wv-primary-dark); box-shadow:0 0 0 4px var(--wv-primary-soft);}
+  .rail-item span{font-size:13.5px; font-weight:600; color:var(--wv-text-muted);}
+  .rail-item.current span, .rail-item.done span{color:var(--wv-text);}
+  .rail-line{position:absolute; left:13px; top:38px; bottom:-6px; width:2px; background:var(--wv-border);}
+  .rail-item.done .rail-line{background:var(--wv-primary-deep);}
+  .rail-item:last-child .rail-line{display:none;}
+
+  .form-card{padding:26px;}
+  .form-card h3{font-size:17px; font-weight:700; margin-bottom:5px;}
+  .form-card .desc{font-size:13px; color:var(--wv-text-secondary); margin-bottom:20px;}
+  .form-grid{display:grid; grid-template-columns:1fr; gap:0;}
+  @media(min-width:600px){.form-grid.two-col{grid-template-columns:1fr 1fr; column-gap:16px;}}
+
+  input[type=text], input[type=number], input[type=tel], select, textarea{
+    width:100%; padding:14px 15px; border-radius:var(--radius-sm); border:1.5px solid var(--wv-border);
+    font-size:14.5px; font-family:inherit; background:#fff; color:var(--wv-text); transition:border-color .15s, box-shadow .15s;
+    min-height:50px;
+  }
+  input:focus, select:focus, textarea:focus{border-color:var(--wv-primary); outline:none; box-shadow:0 0 0 4px var(--wv-primary-soft);}
+  textarea{resize:vertical; min-height:86px;}
+  .field.error input, .field.error select{border-color:var(--wv-error);}
+  .field-error-msg{font-size:12px; color:var(--wv-error); display:none; align-items:center; gap:4px;}
+  .field.error .field-error-msg{display:flex;}
+  .field.success input{border-color:var(--wv-success);}
+
+  .choice-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .choice-card{border:1.5px solid var(--wv-border); border-radius:var(--radius-sm); padding:13px 14px; cursor:pointer; font-size:13.5px; font-weight:600; text-align:center; transition:all .15s;}
+  .choice-card:hover{border-color:var(--wv-primary);}
+  .choice-card.selected{border-color:var(--wv-primary-deep); background:var(--wv-primary-soft); color:var(--wv-primary-deep);}
+
+  .upload-box{border:1.5px dashed var(--wv-border); border-radius:var(--radius-md); padding:24px; text-align:center; cursor:pointer; transition:all .15s; background:#fbfcfc;}
+  .upload-box:hover{border-color:var(--wv-primary); background:var(--wv-primary-tint);}
+  .upload-box.done{border-style:solid; border-color:var(--wv-success); background:#eefaf3;}
+  .upload-box svg{margin:0 auto 10px;}
+  .upload-box .u-title{font-size:13.5px; font-weight:600;}
+  .upload-box .u-sub{font-size:11.5px; color:var(--wv-text-muted); margin-top:4px;}
+
+  .summary-box{background:var(--wv-primary-tint); border:1px solid var(--wv-primary-soft); border-radius:var(--radius-md); padding:18px; margin-top:18px;}
+  .summary-row{display:flex; justify-content:space-between; padding:8px 0; font-size:13.5px;}
+  .summary-row b{font-weight:700; color:var(--wv-primary-dark);}
+
+  .review-block{border:1px solid var(--wv-border); border-radius:var(--radius-md); padding:18px; margin-bottom:14px;}
+  .review-block-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:9px;}
+  .review-block-head h4{font-size:14px; font-weight:700;}
+  .review-block-head button{background:none; border:none; color:var(--wv-info); font-size:12.5px; font-weight:600; cursor:pointer;}
+  .review-line{font-size:13px; color:var(--wv-text-secondary); padding:3px 0;}
+
+  .checkbox-row{display:flex; align-items:flex-start; gap:10px; padding:16px 0; font-size:13.5px; color:var(--wv-text-secondary);}
+  .checkbox-row input{width:18px;height:18px; accent-color:var(--wv-primary); margin-top:2px; flex-shrink:0;}
+
+  .apply-nav{display:flex; gap:10px; margin-top:20px;}
+
+  /* success page */
+  .success-wrap{max-width:480px; margin:0 auto; padding:60px 20px; text-align:center;}
+  .success-icon{width:84px;height:84px; border-radius:50%; background:var(--wv-primary-soft); color:var(--wv-primary-deep); display:flex; align-items:center; justify-content:center; margin:0 auto 22px; box-shadow:0 0 0 8px rgba(8,127,106,0.06);}
+  .success-icon svg{stroke-dasharray:40; stroke-dashoffset:40; animation:drawCheck .5s .1s ease forwards;}
+  @keyframes drawCheck{to{stroke-dashoffset:0;}}
+  .success-wrap h2{font-size:22px; font-weight:800; margin-bottom:8px;}
+  .success-wrap .app-id{font-family:monospace; font-size:15px; background:#fff; border:1px solid var(--wv-border); padding:9px 18px; border-radius:var(--radius-sm); display:inline-block; margin:14px 0 22px; font-weight:700; color:var(--wv-primary-dark);}
+  .status-track{display:flex; align-items:center; justify-content:center; margin:28px 0; gap:0;}
+  .status-track .st-dot{width:32px;height:32px;border-radius:50%; background:#fff; border:2px solid var(--wv-border); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:12.5px; font-weight:700; color:var(--wv-text-muted);}
+  .status-track .st-dot.done{background:var(--wv-primary-deep); border-color:var(--wv-primary-deep); color:#fff;}
+  .status-track .st-line{width:40px;height:2px; background:var(--wv-border);}
+  .status-labels{display:flex; justify-content:center; gap:6px; margin-top:12px; font-size:10.5px; color:var(--wv-text-muted); font-weight:600;}
+  .status-labels span{width:70px;}
+
+  /* Auth */
+  .auth-wrap{max-width:410px; margin:48px auto; padding:0 20px;}
+  .auth-card{padding:34px 28px;}
+  .auth-logo{width:56px;height:56px;border-radius:16px; background:linear-gradient(155deg,var(--wv-primary),var(--wv-primary-dark)); color:#fff; display:flex; align-items:center; justify-content:center; margin:0 auto 20px; box-shadow:0 8px 20px rgba(7,59,58,0.25); position:relative;}
+  .auth-logo::after{content:'';position:absolute; inset:-4px; border-radius:20px; border:1.5px solid var(--wv-gold); opacity:.5;}
+  .auth-card h2{font-size:20px; font-weight:800; text-align:center; margin-bottom:7px;}
+  .auth-card p.sub{text-align:center; font-size:13px; color:var(--wv-text-secondary); margin-bottom:24px;}
+  .otp-row{display:flex; gap:9px; justify-content:center; margin:20px 0;}
+  .otp-row input{width:44px; height:54px; text-align:center; font-size:21px; font-weight:700; padding:0;}
+  .resend{text-align:center; font-size:12.5px; color:var(--wv-text-muted); margin-top:16px;}
+  .resend b{color:var(--wv-primary-dark); cursor:pointer;}
+  .resend b.disabled{color:var(--wv-text-muted); cursor:default;}
+  .auth-security-msg{display:flex; align-items:center; gap:8px; justify-content:center; font-size:11.5px; color:var(--wv-text-muted); margin-top:18px; padding-top:16px; border-top:1px solid var(--wv-border);}
+  .auth-security-msg svg{width:14px;height:14px; color:var(--wv-primary);}
+
+  /* Dashboard */
+  .dash-header{background:linear-gradient(160deg, var(--wv-primary-dark), var(--wv-primary-deep) 55%, var(--wv-primary)); color:#fff; padding:30px 0 70px; border-radius:0 0 32px 32px; position:relative; overflow:hidden;}
+  .dash-header::after{content:''; position:absolute; right:-60px; top:-60px; width:220px; height:220px; border-radius:50%; background:radial-gradient(circle, rgba(200,169,81,0.16), transparent 70%);}
+  .dash-header .container{display:flex; align-items:center; justify-content:space-between; position:relative; z-index:1;}
+  .dash-greet span{font-size:13px; opacity:.85;}
+  .dash-greet h2{font-size:20px; font-weight:800; margin-top:3px; color:#fff;}
+  .avatar{width:44px;height:44px;border-radius:50%; background:rgba(255,255,255,0.18); display:flex;align-items:center;justify-content:center; font-weight:700; border:1.5px solid rgba(255,255,255,0.3);}
+
+  .loan-hero-card{background:#fff; border-radius:var(--radius-xl); box-shadow:var(--shadow-lg); padding:26px; margin-top:-48px; position:relative; z-index:5;}
+  .lh-top{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;}
+  .lh-amt{font-size:28px; font-weight:800; color:var(--wv-text); letter-spacing:-0.01em;}
+  .lh-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; padding-top:16px; border-top:1px dashed var(--wv-border);}
+  .lh-grid div span{font-size:11.5px; color:var(--wv-text-muted); display:block;}
+  .lh-grid div b{font-size:15.5px; font-weight:700;}
+  .progress-bar-track{height:10px; background:var(--wv-primary-soft); border-radius:6px; overflow:hidden; margin:16px 0 7px;}
+  .progress-bar-fill{height:100%; background:linear-gradient(90deg,var(--wv-primary-deep),var(--wv-primary)); border-radius:6px; transition:width .5s var(--ease);}
+  .progress-caption{font-size:12px; color:var(--wv-text-muted); text-align:right;}
+
+  .quick-actions{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:24px;}
+  .qa-item{display:flex; flex-direction:column; align-items:center; gap:9px; cursor:pointer; text-align:center;}
+  .qa-icon{width:56px;height:56px;border-radius:16px; background:#fff; border:1px solid var(--wv-border); display:flex; align-items:center; justify-content:center; color:var(--wv-primary-deep); box-shadow:var(--shadow-sm); transition:transform .18s var(--ease), border-color .18s var(--ease);}
+  .qa-item:hover .qa-icon{transform:translateY(-3px); border-color:var(--wv-primary);}
+  .qa-item span{font-size:11.5px; font-weight:600; color:var(--wv-text-secondary);}
+  .qa-item.emphasis .qa-icon{background:linear-gradient(155deg,var(--wv-primary),var(--wv-primary-dark)); color:#fff; border-color:transparent;}
+
+  .tab-row{display:flex; gap:8px; margin-bottom:18px; overflow-x:auto;}
+  .tab-btn{padding:10px 18px; border-radius:var(--radius-pill); border:1.5px solid var(--wv-border); background:#fff; font-size:13px; font-weight:600; color:var(--wv-text-secondary); cursor:pointer; white-space:nowrap; transition:all .15s;}
+  .tab-btn.active{background:var(--wv-primary-deep); border-color:var(--wv-primary-deep); color:#fff;}
+
+  .notif-item{display:flex; gap:13px; padding:16px; border-bottom:1px solid var(--wv-border); position:relative;}
+  .notif-item:last-child{border-bottom:none;}
+  .notif-ic{width:38px;height:38px;border-radius:11px; background:var(--wv-primary-soft); color:var(--wv-primary-deep); display:flex;align-items:center;justify-content:center; flex-shrink:0;}
+  .notif-item p{font-size:13.5px; font-weight:500;}
+  .notif-item time{font-size:11.5px; color:var(--wv-text-muted);}
+  .notif-item .notif-cat{font-size:11px; font-weight:700; color:var(--wv-primary-deep); margin-bottom:2px; display:block;}
+  .notif-unread-dot{width:8px;height:8px;border-radius:50%; background:var(--wv-error); position:absolute; top:16px; right:14px;}
+
+  .empty-state{text-align:center; padding:56px 20px; color:var(--wv-text-muted);}
+  .empty-state svg{margin:0 auto 14px; opacity:.5;}
+  .empty-state h4{font-size:14.5px; color:var(--wv-text); font-weight:700; margin-bottom:6px;}
+  .empty-state p{font-size:13px;}
+
+  .toast-wrap{position:fixed; top:16px; left:50%; transform:translateX(-50%); z-index:100; display:flex; flex-direction:column; gap:8px; width:calc(100% - 32px); max-width:400px;}
+  .toast{background:var(--wv-primary-dark); color:#fff; padding:14px 18px; border-radius:var(--radius-md); font-size:13.5px; display:flex; align-items:center; gap:10px; box-shadow:var(--shadow-lg); animation:toastIn .28s var(--ease);}
+  .toast.success{background:var(--wv-success);}
+  .toast.error{background:var(--wv-error);}
+  @keyframes toastIn{from{opacity:0; transform:translateY(-12px);} to{opacity:1; transform:translateY(0);}}
+
+  .payment-method-row{display:flex; align-items:center; gap:12px; padding:15px 16px; border:1.5px solid var(--wv-border); border-radius:var(--radius-sm); margin-bottom:11px; cursor:pointer; transition:all .15s;}
+  .payment-method-row:hover{border-color:var(--wv-primary);}
+  .payment-method-row.selected{border-color:var(--wv-primary-deep); background:var(--wv-primary-soft); box-shadow:0 0 0 3px rgba(8,127,106,0.08);}
+  .payment-security-note{display:flex; align-items:center; gap:8px; font-size:12px; color:var(--wv-text-muted); margin-top:16px;}
+  .payment-security-note svg{width:15px;height:15px; color:var(--wv-primary);}
+
+  .profile-row{padding:18px 20px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;}
+  .profile-row:hover{border-color:var(--wv-primary);}
+
+  @media(min-width:900px){
+    nav.desktop-nav{display:flex;}
+    .mobile-only{display:none !important;}
+    .desktop-only{display:inline-flex !important;}
+    nav.bottom-nav{display:none;}
+    main{padding-bottom:0;}
+    .hero-inner{flex-direction:row; align-items:center; justify-content:space-between; gap:56px;}
+    .hero-text{flex:1; max-width:540px;}
+    .hero-visual-wrap{flex:1; max-width:440px;}
+    .hero h1{font-size:44px;}
+    .section-head h2{font-size:30px;}
+  }
+  @media(min-width:1200px){
+    .hero h1{font-size:50px;}
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header class="topbar" id="topbarEl">
+    <div class="container topbar-inner">
+      <div style="display:flex; align-items:center; gap:32px;">
+        <div class="brand" onclick="go('home')" style="cursor:pointer;">
+          <div class="brand-mark">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z" stroke-width="2" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <span>World Vision<small>FINANCE</small></span>
+        </div>
+        <nav class="desktop-nav" id="desktopNav">
+          <a data-nav="home" class="active">হোম</a>
+          <a data-nav="loans">ঋণ</a>
+          <a data-nav="home" data-anchor="how">কীভাবে কাজ করে</a>
+          <a data-nav="home" data-anchor="faq">সহায়তা</a>
+        </nav>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn mobile-only" aria-label="নোটিফিকেশন" onclick="go('notifications')">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+          <span class="dot-alert"></span>
+        </button>
+        <button class="btn btn-ghost btn-sm desktop-only" onclick="go('login')">লগইন</button>
+        <button class="btn btn-primary btn-sm" onclick="go('apply')">আবেদন করুন</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="demo-banner">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+    এটি একটি ডেমো ভার্সন — শুধুমাত্র ডিজাইন প্রদর্শনের জন্য, কোনো বাস্তব তথ্য জমা হচ্ছে না
+  </div>
+
+  <main>
+
+  <!-- ============ HOME ============ -->
+  <section class="page active" id="page-home">
+    <div class="hero">
+      <div class="container hero-inner">
+        <div class="hero-text">
+          <div class="eyebrow">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 9 4.5v6c0 5-3.8 8.7-9 10-5.2-1.3-9-5-9-10v-6L12 2Z"/></svg>
+            World Vision ফাইন্যান্স
+          </div>
+          <h1>আপনার প্রয়োজনের সময়, সহজ ঋণ সমাধান</h1>
+          <p class="sub">সহজ আবেদন, স্বচ্ছ শর্ত এবং সুবিধাজনক পরিশোধ ব্যবস্থার মাধ্যমে আপনার প্রয়োজনের পাশে।</p>
+          <div class="hero-ctas">
+            <button class="btn btn-primary" onclick="go('apply')">
+              ঋণের জন্য আবেদন করুন
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </button>
+            <button class="btn btn-ghost" onclick="go('loans')">ঋণ সম্পর্কে জানুন</button>
+          </div>
+          <div class="hero-trust-row">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>নিরাপদ সংযোগ</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>যাচাইকৃত প্রক্রিয়া</span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6M9 16h6M9 8h6M5 4h14v16l-4-3-3 2-3-2-4 3V4Z"/></svg>স্বচ্ছ শর্ত</span>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat"><b>৫০,০০০+</b><span>সন্তুষ্ট গ্রাহক (ডেমো)</span></div>
+            <div class="hero-stat"><b>৳১০০ কোটি+</b><span>বিতরণকৃত ঋণ (ডেমো)</span></div>
+            <div class="hero-stat"><b>২৪ ঘণ্টা</b><span>দ্রুত যাচাই (ডেমো)</span></div>
+          </div>
+        </div>
+        <div class="hero-visual-wrap">
+          <div class="hero-visual">
+            <div class="hv-top">
+              <div class="hv-brand"><span class="hv-dot"></span>World Vision অ্যাকাউন্ট</div>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--wv-text-muted)"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+            </div>
+            <span class="badge badge-soft">চলমান ঋণ</span>
+            <div class="hv-amount-label" style="margin-top:14px;">সক্রিয় ঋণের পরিমাণ</div>
+            <div class="hv-amount">৳৫০,০০০</div>
+            <div class="hv-sub">বকেয়া ৳৩৫,০০০ • পরবর্তী কিস্তি ২৫ আগস্ট</div>
+            <div class="progress-bar-track"><div class="progress-bar-fill" style="width:33%"></div></div>
+            <div class="progress-caption">৪ / ১২ কিস্তি পরিশোধ</div>
+            <div class="hv-footer">
+              <div class="badge badge-gold"><svg class="icon" style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z"/></svg>যাচাইকৃত গ্রাহক</div>
+              <div class="badge badge-soft"><svg class="icon" style="width:13px;height:13px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>নিরাপদ</div>
+            </div>
+          </div>
+          <div class="floating-chip chip-1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 13 4 4L19 7"/></svg>
+            আবেদন অনুমোদিত <span style="font-weight:400; color:var(--wv-text-muted); font-size:10.5px;">(ডেমো)</span>
+          </div>
+          <div class="floating-chip chip-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg>
+            ৳৫,০০০ কিস্তি পরিশোধ
+          </div>
+          <div class="floating-chip chip-3">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+            নিরাপদ সংযোগ
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="section container">
+      <div class="section-head">
+        <h2>ঋণের ধরন</h2>
+        <p>আপনার প্রয়োজন অনুযায়ী উপযুক্ত ঋণ বেছে নিন</p>
+      </div>
+      <div class="grid grid-3" id="homeLoanGrid"></div>
+    </section>
+
+    <section class="section" style="background:#fff; border-top:1px solid var(--wv-border); border-bottom:1px solid var(--wv-border);">
+      <div class="container">
+        <div class="section-head">
+          <h2>কেন World Vision বেছে নেবেন</h2>
+        </div>
+        <div class="trust-asym">
+          <div class="trust-hero-panel">
+            <h3>আপনার আর্থিক পরিকল্পনা, আমাদের দায়িত্ব</h3>
+            <p>আমরা বিশ্বাস করি একটি ঋণ প্রক্রিয়া হওয়া উচিত সহজ, স্বচ্ছ এবং মানুষের প্রতি সম্মানজনক। সেই লক্ষ্যেই World Vision Finance-এর প্রতিটি ধাপ ডিজাইন করা হয়েছে।</p>
+          </div>
+          <div class="trust-mini-grid">
+            <div class="trust-mini-item">
+              <div class="t-ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h8l-1 8 10-12h-8l1-8Z"/></svg></div>
+              <h4>সহজ আবেদন</h4>
+              <p>মাত্র কয়েক মিনিটে মোবাইল থেকেই আবেদন সম্পন্ন করুন।</p>
+            </div>
+            <div class="trust-mini-item">
+              <div class="t-ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+              <h4>দ্রুত যাচাই</h4>
+              <p>স্বল্প সময়ের মধ্যে আপনার আবেদন পর্যালোচনা করা হয়।</p>
+            </div>
+            <div class="trust-mini-item">
+              <div class="t-ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6M9 16h6M9 8h6M5 4h14v16l-4-3-3 2-3-2-4 3V4Z"/></svg></div>
+              <h4>স্বচ্ছ শর্ত</h4>
+              <p>সকল শর্ত ও চার্জ স্পষ্টভাবে আগে থেকেই জানানো হয়।</p>
+            </div>
+            <div class="trust-mini-item">
+              <div class="t-ic"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z"/></svg></div>
+              <h4>নিরাপদ তথ্য সংরক্ষণ</h4>
+              <p>আপনার ব্যক্তিগত তথ্য সংরক্ষণে যথাযথ সতর্কতা নেওয়া হয়।</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="how">
+      <div class="section-head">
+        <h2>কীভাবে কাজ করে</h2>
+        <p>মাত্র চারটি সহজ ধাপে আপনার ঋণ প্রক্রিয়া সম্পন্ন করুন</p>
+      </div>
+      <div class="timeline-row">
+        <div class="timeline-connector"></div>
+        <div class="timeline-node">
+          <div class="timeline-node-wrap">
+            <div class="t-num">১</div>
+            <div><h4>আবেদন করুন</h4><p>প্রয়োজনীয় তথ্য দিয়ে অনলাইনে আবেদন করুন।</p></div>
+          </div>
+        </div>
+        <div class="timeline-node">
+          <div class="timeline-node-wrap">
+            <div class="t-num">২</div>
+            <div><h4>তথ্য যাচাই</h4><p>আপনার প্রদত্ত তথ্য যাচাই করা হবে।</p></div>
+          </div>
+        </div>
+        <div class="timeline-node">
+          <div class="timeline-node-wrap">
+            <div class="t-num">৩</div>
+            <div><h4>অনুমোদন</h4><p>যাচাই শেষে আবেদনের সিদ্ধান্ত জানানো হবে।</p></div>
+          </div>
+        </div>
+        <div class="timeline-node">
+          <div class="timeline-node-wrap">
+            <div class="t-num">৪</div>
+            <div><h4>ঋণ গ্রহণ</h4><p>অনুমোদনের পর নির্ধারিত মাধ্যমে ঋণ প্রদান করা হয়।</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="section-head">
+        <h2>ঋণ ক্যালকুলেটর</h2>
+        <p>আপনার মাসিক কিস্তি সম্পর্কে ধারণা নিন</p>
+      </div>
+      <div class="card calc-wrap">
+        <div>
+          <div class="field">
+            <label for="calcAmount">ঋণের পরিমাণ</label>
+            <input type="range" id="calcAmount" min="10000" max="100000" step="5000" value="50000" oninput="updateCalc()">
+            <div class="range-value"><span>৳১০,০০০</span><span id="calcAmountVal">৳৫০,০০০</span><span>৳১,০০,০০০</span></div>
+          </div>
+          <div class="field">
+            <label for="calcTenure">মেয়াদ (মাস)</label>
+            <input type="range" id="calcTenure" min="3" max="24" step="1" value="12" oninput="updateCalc()">
+            <div class="range-value"><span>৩</span><span id="calcTenureVal">১২ মাস</span><span>২৪</span></div>
+          </div>
+          <div class="field">
+            <label for="calcRate">সুদের হার (বাৎসরিক)</label>
+            <input type="range" id="calcRate" min="8" max="18" step="0.5" value="12" oninput="updateCalc()">
+            <div class="range-value"><span>৮%</span><span id="calcRateVal">১২%</span><span>১৮%</span></div>
+          </div>
+        </div>
+        <div class="calc-result">
+          <span class="estimate-tag">
+            <svg class="icon" style="width:14px;height:14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>
+            আনুমানিক হিসাব
+          </span>
+          <div>
+            <div style="font-size:12.5px; color:var(--wv-text-secondary);">আনুমানিক মাসিক কিস্তি</div>
+            <div class="big" id="calcEmi">৳৪,৬০০</div>
+          </div>
+          <div class="calc-donut-row">
+            <div class="calc-donut" id="calcDonut"></div>
+            <div class="calc-donut-legend">
+              <span><i style="background:var(--wv-primary-deep)"></i>আসল (Principal)</span>
+              <span><i style="background:var(--wv-gold)"></i>সুদ (Interest)</span>
+            </div>
+          </div>
+          <div class="calc-result-row"><span>মোট পরিশোধ</span><b id="calcTotal">৳৫৫,২০০</b></div>
+          <div class="calc-result-row"><span>মোট সুদ</span><b id="calcInterest">৳৫,২০০</b></div>
+          <button class="btn btn-primary btn-block" onclick="go('apply')">এই শর্তে আবেদন করুন</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="section-head"><h2>আপনার তথ্যের নিরাপত্তা আমাদের অগ্রাধিকার</h2></div>
+      <div class="trust-strip">
+        <div class="trust-item"><div class="t-ic"><svg class="icon" style="width:18px;height:18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><div><h4>নিরাপদ সংযোগ</h4><p>নিরাপদ সংযোগের মাধ্যমে তথ্য আদান-প্রদানের ব্যবস্থা রাখা হয়।</p></div></div>
+        <div class="trust-item"><div class="t-ic"><svg class="icon" style="width:18px;height:18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z"/></svg></div><div><h4>তথ্যের গোপনীয়তা</h4><p>আপনার তথ্য শুধুমাত্র প্রয়োজনীয় যাচাইয়ের জন্য ব্যবহৃত হবে।</p></div></div>
+        <div class="trust-item"><div class="t-ic"><svg class="icon" style="width:18px;height:18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div><div><h4>যাচাইকৃত আবেদন প্রক্রিয়া</h4><p>প্রতিটি আবেদন নির্দিষ্ট ধাপে পর্যালোচনা করা হয়।</p></div></div>
+      </div>
+    </section>
+
+    <section class="section container" id="faq">
+      <div class="section-head"><h2>সাধারণ জিজ্ঞাসা</h2></div>
+      <div id="faqList"></div>
+    </section>
+  </section>
+
+  <!-- ============ LOANS ============ -->
+  <section class="page" id="page-loans">
+    <div class="container page-header">
+      <h1>ঋণের ধরনসমূহ</h1>
+      <p>আপনার প্রয়োজন অনুযায়ী সঠিক ঋণ বেছে নিন</p>
+    </div>
+    <div class="container section">
+      <div class="grid grid-3" id="loansGrid"></div>
+    </div>
+  </section>
+
+  <!-- ============ APPLY (multi-step) ============ -->
+  <section class="page" id="page-apply">
+    <div class="apply-layout">
+      <div class="apply-rail" id="applyRail"></div>
+      <div class="apply-shell">
+        <div class="apply-top">
+          <h2>আবেদন প্রক্রিয়া</h2>
+          <span class="apply-step-label" id="stepLabel">ধাপ ১ / ৬</span>
+        </div>
+        <div class="progress-track" id="progressTrack"></div>
+        <div id="stepContent"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SUCCESS ============ -->
+  <section class="page" id="page-success">
+    <div class="success-wrap">
+      <div class="success-icon">
+        <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 13 4 4L19 7"/></svg>
+      </div>
+      <h2>আপনার আবেদন জমা হয়েছে</h2>
+      <p style="color:var(--wv-text-secondary); font-size:13.5px;">আমরা শীঘ্রই আপনার আবেদন পর্যালোচনা করব।</p>
+      <div class="app-id" id="successAppId">LN-2026-000123</div>
+      <div>
+        <div class="status-track">
+          <div class="st-dot done"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 13 4 4L19 7"/></svg></div>
+          <div class="st-line"></div>
+          <div class="st-dot">২</div>
+          <div class="st-line"></div>
+          <div class="st-dot">৩</div>
+          <div class="st-line"></div>
+          <div class="st-dot">৪</div>
+        </div>
+        <div class="status-labels">
+          <span>আবেদন জমা</span><span>তথ্য যাচাই</span><span>অনুমোদন</span><span>ঋণ বিতরণ</span>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:32px;">
+        <button class="btn btn-primary btn-block" onclick="go('dashboard')">আবেদনের অবস্থা দেখুন</button>
+        <button class="btn btn-ghost btn-block" onclick="go('home')">হোমে ফিরে যান</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LOGIN ============ -->
+  <section class="page" id="page-login">
+    <div class="auth-wrap">
+      <div class="card auth-card" id="loginCardPhone">
+        <div class="auth-logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z"/></svg></div>
+        <h2>লগইন করুন</h2>
+        <p class="sub">আপনার মোবাইল নম্বর দিয়ে প্রবেশ করুন</p>
+        <div class="field">
+          <label for="loginPhone">মোবাইল নম্বর</label>
+          <input type="tel" id="loginPhone" placeholder="০১৭ XX XXX XXX">
+        </div>
+        <button class="btn btn-primary btn-block" onclick="goOtp()">এগিয়ে যান</button>
+        <div class="resend" style="margin-top:16px;">নতুন ব্যবহারকারী? <b onclick="go('register')">নিবন্ধন করুন</b></div>
+        <div class="auth-security-msg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          নিরাপদ সংযোগের মাধ্যমে তথ্য আদান-প্রদান করা হয়
+        </div>
+      </div>
+
+      <div class="card auth-card" id="loginCardOtp" style="display:none;">
+        <div class="auth-logo"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z"/></svg></div>
+        <h2>OTP কোড দিন</h2>
+        <p class="sub">আপনার মোবাইলে পাঠানো ৬ সংখ্যার কোড দিন</p>
+        <div class="otp-row">
+          <input type="text" maxlength="1" inputmode="numeric">
+          <input type="text" maxlength="1" inputmode="numeric">
+          <input type="text" maxlength="1" inputmode="numeric">
+          <input type="text" maxlength="1" inputmode="numeric">
+          <input type="text" maxlength="1" inputmode="numeric">
+          <input type="text" maxlength="1" inputmode="numeric">
+        </div>
+        <button class="btn btn-primary btn-block" onclick="doLogin()">যাচাই করুন</button>
+        <div class="resend">কোড পাননি? <b id="resendBtn" onclick="resendOtp()">কোড আবার পাঠান</b></div>
+        <div class="auth-security-msg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z"/></svg>
+          এই কোডটি কারও সাথে শেয়ার করবেন না
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DASHBOARD ============ -->
+  <section class="page" id="page-dashboard">
+    <div class="dash-header">
+      <div class="container">
+        <div class="dash-greet"><span>শুভেচ্ছা,</span><h2>রাকিব হাসান</h2></div>
+        <div class="avatar">র</div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="loan-hero-card">
+        <div class="lh-top">
+          <div><span class="badge badge-soft">চলমান ঋণ</span><div class="lh-amt" style="margin-top:9px;">৳৫০,০০০</div></div>
+          <button class="icon-btn" onclick="go('loanDetails')"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+        <div class="progress-bar-track"><div class="progress-bar-fill" style="width:33%"></div></div>
+        <div class="progress-caption">৪ / ১২ কিস্তি পরিশোধ</div>
+        <div class="lh-grid">
+          <div><span>বকেয়া</span><b>৳৩৫,০০০</b></div>
+          <div><span>পরবর্তী কিস্তি</span><b>৳৫,০০০</b></div>
+          <div><span>পরিশোধের তারিখ</span><b>২৫ আগস্ট</b></div>
+          <div><span>স্ট্যাটাস</span><b style="color:var(--wv-success)">চলমান</b></div>
+        </div>
+        <button class="btn btn-primary btn-block" style="margin-top:18px;" onclick="go('payment')">কিস্তি পরিশোধ করুন</button>
+      </div>
+
+      <div class="quick-actions">
+        <div class="qa-item" onclick="go('loanDetails')"><div class="qa-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div><span>ঋণের বিবরণ</span></div>
+        <div class="qa-item" onclick="go('payment')"><div class="qa-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg></div><span>কিস্তি পরিশোধ</span></div>
+        <div class="qa-item emphasis" onclick="go('apply')"><div class="qa-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div><span>আবেদন করুন</span></div>
+        <div class="qa-item" onclick="go('myloans')"><div class="qa-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="M3 9h18"/></svg></div><span>লেনদেন দেখুন</span></div>
+      </div>
+
+      <div class="section-head" style="margin-top:32px;"><h2 style="font-size:17px;">সাম্প্রতিক নোটিফিকেশন</h2></div>
+      <div class="card" id="dashNotifPreview"></div>
+    </div>
+  </section>
+
+  <!-- ============ MY LOANS ============ -->
+  <section class="page" id="page-myloans">
+    <div class="container page-header"><h1>আমার ঋণ</h1></div>
+    <div class="container">
+      <div class="tab-row" id="myLoansTabs">
+        <button class="tab-btn active" onclick="switchLoanTab(this)">চলমান</button>
+        <button class="tab-btn" onclick="switchLoanTab(this)">সম্পন্ন</button>
+        <button class="tab-btn" onclick="switchLoanTab(this)">আবেদন</button>
+      </div>
+      <div class="grid" id="myLoansList"></div>
+    </div>
+  </section>
+
+  <!-- ============ LOAN DETAILS ============ -->
+  <section class="page" id="page-loanDetails">
+    <div class="container page-header">
+      <h1>ঋণের বিবরণ — সহজ ঋণ</h1>
+    </div>
+    <div class="container">
+      <div class="card" style="padding:24px; margin-bottom:24px;">
+        <div class="grid grid-2">
+          <div class="summary-row"><span>ঋণের পরিমাণ</span><b>৳৫০,০০০</b></div>
+          <div class="summary-row"><span>বিতরণকৃত পরিমাণ</span><b>৳৫০,০০০</b></div>
+          <div class="summary-row"><span>মোট পরিশোধযোগ্য</span><b>৳৫৭,৬০০</b></div>
+          <div class="summary-row"><span>পরিশোধিত</span><b>৳১৯,২০০</b></div>
+          <div class="summary-row"><span>বকেয়া</span><b>৳৩৮,৪০০</b></div>
+          <div class="summary-row"><span>মেয়াদ</span><b>১২ মাস</b></div>
+          <div class="summary-row"><span>সুদের হার</span><b>১২%</b></div>
+          <div class="summary-row"><span>স্ট্যাটাস</span><b style="color:var(--wv-success)">চলমান</b></div>
+        </div>
+      </div>
+      <h3 style="font-size:16px; margin-bottom:14px;">পরিশোধ সময়সূচি</h3>
+      <div class="grid" id="scheduleList"></div>
+    </div>
+  </section>
+
+  <!-- ============ PAYMENT ============ -->
+  <section class="page" id="page-payment">
+    <div class="apply-shell">
+      <h2 style="font-size:17px; font-weight:700; margin-bottom:18px;">কিস্তি পরিশোধ</h2>
+      <div class="card" style="padding:24px; margin-bottom:18px;">
+        <div style="text-align:center; padding:10px 0;">
+          <div style="font-size:12.5px; color:var(--wv-text-muted);">পরিশোধযোগ্য পরিমাণ</div>
+          <div style="font-size:32px; font-weight:800; color:var(--wv-primary-dark); margin-top:6px;">৳৫,০০০</div>
+        </div>
+      </div>
+      <div class="card form-card">
+        <h3>পেমেন্ট পদ্ধতি নির্বাচন করুন</h3>
+        <div id="payMethods"></div>
+        <div class="payment-security-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          নিরাপদ সংযোগের মাধ্যমে পেমেন্ট প্রক্রিয়া সম্পন্ন করা হয়
+        </div>
+        <button class="btn btn-primary btn-block" style="margin-top:18px;" onclick="doPayment()">পরিশোধ নিশ্চিত করুন</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROFILE ============ -->
+  <section class="page" id="page-profile">
+    <div class="container page-header"><h1>প্রোফাইল</h1></div>
+    <div class="container" style="max-width:640px;">
+      <div class="card" style="padding:24px; display:flex; align-items:center; gap:16px; margin-bottom:22px;">
+        <div class="avatar" style="background:var(--wv-primary-soft); color:var(--wv-primary-deep); width:58px;height:58px; font-size:21px;">র</div>
+        <div>
+          <div style="font-weight:700; font-size:16px;">রাকিব হাসান</div>
+          <div style="font-size:12.5px; color:var(--wv-text-muted); margin-top:2px;">০১৭১২ XXX XXX</div>
+        </div>
+      </div>
+      <div class="grid" id="profileSections"></div>
+    </div>
+  </section>
+
+  <!-- ============ NOTIFICATIONS ============ -->
+  <section class="page" id="page-notifications">
+    <div class="container page-header"><h1>নোটিফিকেশন</h1></div>
+    <div class="container"><div class="card" id="notifList"></div></div>
+  </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand-mark">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <div class="footer-brand-text"><b>World Vision Finance</b><span>সহজ ও স্বচ্ছ ঋণ সেবা</span></div>
+      </div>
+      <div class="footer-grid">
+        <div>
+          <p class="footer-about">World Vision Finance একটি ডেমো ডিজিটাল লেন্ডিং প্ল্যাটফর্ম, যা আধুনিক আর্থিক সেবার নকশা প্রদর্শনের জন্য তৈরি করা হয়েছে। এটি সহজ, স্বচ্ছ এবং নিরাপদ অভিজ্ঞতা নিয়ে ডিজাইন করা হয়েছে।</p>
+        </div>
+        <div>
+          <h5>কোম্পানি</h5>
+          <a onclick="go('home')">হোম</a>
+          <a onclick="go('home','how')">কীভাবে কাজ করে</a>
+          <a onclick="go('home','faq')">সহায়তা কেন্দ্র</a>
+        </div>
+        <div>
+          <h5>ঋণ</h5>
+          <a onclick="go('loans')">সহজ ঋণ</a>
+          <a onclick="go('loans')">ব্যবসায়িক ঋণ</a>
+          <a onclick="go('loans')">জরুরি ঋণ</a>
+          <a onclick="go('home')">ঋণ ক্যালকুলেটর</a>
+        </div>
+        <div>
+          <h5>সহায়তা ও আইনি</h5>
+          <a onclick="go('home','faq')">সাধারণ জিজ্ঞাসা</a>
+          <a onclick="toast('যোগাযোগ তথ্য শীঘ্রই আসছে (ডেমো)')">যোগাযোগ</a>
+          <a onclick="toast('গোপনীয়তা নীতি — ডেমো পাতা')">গোপনীয়তা নীতি</a>
+          <a onclick="toast('শর্তাবলী — ডেমো পাতা')">শর্তাবলী</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© ২০২৬ World Vision Finance। সর্বস্বত্ব সংরক্ষিত।</span>
+        <span>এটি একটি ডিজাইন ডেমো — বাস্তব আর্থিক প্রতিষ্ঠান নয়</span>
+      </div>
+      <div class="footer-disclaimer">
+        দাবিত্যাগ: এই ওয়েবসাইটটি শুধুমাত্র একটি ইউআই/ইউএক্স ডিজাইন প্রদর্শনের নমুনা। এখানে প্রদর্শিত সকল তথ্য, পরিসংখ্যান, ঋণের শর্ত ও ব্যবহারকারীর তথ্য কাল্পনিক এবং শুধুমাত্র ডেমো উদ্দেশ্যে ব্যবহৃত হয়েছে। এটি কোনো লাইসেন্সপ্রাপ্ত আর্থিক প্রতিষ্ঠানের প্রকৃত পণ্য বা সেবা নয়।
+      </div>
+    </div>
+  </footer>
+
+  <nav class="bottom-nav">
+    <button data-nav="home" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/></svg>হোম</button>
+    <button data-nav="myloans"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 15h6"/></svg>আমার ঋণ</button>
+    <button data-nav="apply" class="nav-emphasis"><span class="emphasis-circle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg></span><span>আবেদন</span></button>
+    <button data-nav="notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>নোটিফিকেশন</button>
+    <button data-nav="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>প্রোফাইল</button>
+  </nav>
+
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+/* ===================== MOCK DATA ===================== */
+const loanProducts = [
+  {name:"সহজ ঋণ", desc:"ব্যক্তিগত প্রয়োজনের জন্য দ্রুত ঋণ", min:10000, max:100000, tenure:"৩–১২ মাস", rate:"১২%", icon:"coins"},
+  {name:"ব্যবসায়িক ঋণ", desc:"ছোট ব্যবসা সম্প্রসারণের জন্য", min:50000, max:500000, tenure:"৬–২৪ মাস", rate:"১৪%", icon:"chart"},
+  {name:"জরুরি ঋণ", desc:"তাৎক্ষণিক প্রয়োজন মেটাতে দ্রুততম প্রক্রিয়া", min:5000, max:50000, tenure:"৩–৬ মাস", rate:"১০%", icon:"bolt"},
+];
+
+const faqs = [
+  {q:"আবেদন করতে কী কী লাগবে?", a:"জাতীয় পরিচয়পত্র, বর্তমান ঠিকানা এবং আয়ের তথ্য প্রয়োজন হবে।"},
+  {q:"অনুমোদনে কত সময় লাগে?", a:"সাধারণত তথ্য যাচাই সম্পন্ন হলে দ্রুততম সময়ে সিদ্ধান্ত জানানো হয়।"},
+  {q:"আগে থেকে ঋণ পরিশোধ করা যাবে?", a:"হ্যাঁ, নির্ধারিত শর্ত সাপেক্ষে আগেভাগে পরিশোধ করা সম্ভব।"},
+  {q:"আমার তথ্য কি নিরাপদ থাকবে?", a:"আপনার তথ্য শুধুমাত্র প্রয়োজনীয় যাচাইয়ের জন্য ব্যবহৃত হয় এবং যথাযথ সতর্কতার সাথে সংরক্ষণ করা হয়।"},
+];
+
+const notifications = [
+  {cat:"পেমেন্ট", text:"আপনার কিস্তি পরিশোধের তারিখ ২৫ আগস্ট।", time:"২ ঘণ্টা আগে", unread:true},
+  {cat:"আবেদন", text:"আপনার আবেদন যাচাই প্রক্রিয়াধীন রয়েছে।", time:"১ দিন আগে", unread:true},
+  {cat:"ঋণ", text:"আপনার ঋণ সফলভাবে অনুমোদিত হয়েছে।", time:"৩ দিন আগে", unread:false},
+  {cat:"সিস্টেম", text:"আপনার প্রোফাইল তথ্য হালনাগাদ করুন।", time:"৫ দিন আগে", unread:false},
+];
+
+const schedule = [
+  {n:1, date:"২৫ মে", amt:"৳৪,৮০০", paid:true},
+  {n:2, date:"২৫ জুন", amt:"৳৪,৮০০", paid:true},
+  {n:3, date:"২৫ জুলাই", amt:"৳৪,৮০০", paid:true},
+  {n:4, date:"২৫ আগস্ট", amt:"৳৪,৮০০", paid:false},
+  {n:5, date:"২৫ সেপ্টেম্বর", amt:"৳৪,৮০০", paid:false},
+];
+
+const iconMap = {
+  coins:'<path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z"/>',
+  chart:'<path d="M3 3v18h18"/><path d="M7 15l3-3 3 3 5-6"/>',
+  bolt:'<path d="M13 2 3 14h8l-1 8 10-12h-8l1-8Z"/>',
+};
+
+/* ===================== RENDER: HOME / LOANS ===================== */
+function loanCardHtml(p){
+  return `<div class="card loan-card">
+    <div class="lc-top">
+      <div class="lc-icon"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${iconMap[p.icon]}</svg></div>
+      <span class="badge badge-soft">জনপ্রিয়</span>
+    </div>
+    <div>
+      <h3>${p.name}</h3>
+      <p style="font-size:13px; color:var(--wv-text-secondary); margin-top:4px;">${p.desc}</p>
+    </div>
+    <div class="loan-range">৳${p.min.toLocaleString('bn-BD')} – ৳${p.max.toLocaleString('bn-BD')}</div>
+    <div class="loan-meta">
+      <div><span>মেয়াদ</span><b>${p.tenure}</b></div>
+      <div><span>সুদের হার</span><b>${p.rate}</b></div>
+    </div>
+    <div class="lc-cta" onclick="go('apply')">বিস্তারিত দেখুন
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </div>
+    <button class="btn btn-primary btn-block btn-sm" onclick="go('apply')">আবেদন করুন</button>
+  </div>`;
+}
+document.getElementById('homeLoanGrid').innerHTML = loanProducts.map(loanCardHtml).join('');
+document.getElementById('loansGrid').innerHTML = loanProducts.map(loanCardHtml).join('');
+
+document.getElementById('faqList').innerHTML = faqs.map((f,i)=>`
+  <div class="faq-item" id="faq-${i}">
+    <div class="faq-q" onclick="toggleFaq(${i})">
+      <span>${f.q}</span>
+      <svg class="icon chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+    <div class="faq-a"><div class="faq-a-inner">${f.a}</div></div>
+  </div>`).join('');
+function toggleFaq(i){ document.getElementById('faq-'+i).classList.toggle('open'); }
+
+function notifItemHtml(n){
+  return `<div class="notif-item">
+    <div class="notif-ic"><svg class="icon" style="width:16px;height:16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/></svg></div>
+    <div><span class="notif-cat">${n.cat}</span><p>${n.text}</p><time>${n.time}</time></div>
+    ${n.unread?'<span class="notif-unread-dot"></span>':''}
+  </div>`;
+}
+document.getElementById('notifList').innerHTML = notifications.map(notifItemHtml).join('');
+document.getElementById('dashNotifPreview').innerHTML = notifications.slice(0,2).map(notifItemHtml).join('');
+
+document.getElementById('myLoansList').innerHTML = `
+  <div class="card loan-card">
+    <div class="lc-top"><h3>সহজ ঋণ</h3><span class="badge badge-soft">চলমান</span></div>
+    <div class="loan-range">৳৫০,০০০</div>
+    <div class="loan-meta"><div><span>পরবর্তী কিস্তি</span><b>৳৫,০০০</b></div><div><span>তারিখ</span><b>২৫ আগস্ট</b></div></div>
+    <button class="btn btn-secondary btn-block btn-sm" onclick="go('loanDetails')">বিস্তারিত দেখুন</button>
+  </div>`;
+function switchLoanTab(btn){
+  document.querySelectorAll('#myLoansTabs .tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+document.getElementById('scheduleList').innerHTML = schedule.map(s=>`
+  <div class="card" style="padding:16px 18px; display:flex; justify-content:space-between; align-items:center;">
+    <div><div style="font-weight:700; font-size:14px;">কিস্তি ${s.n}</div><div style="font-size:12px; color:var(--wv-text-muted); margin-top:2px;">${s.date}</div></div>
+    <div style="text-align:left;"><div style="font-weight:700;">${s.amt}</div></div>
+    ${s.paid ? '<span class="badge badge-soft">পরিশোধিত ✓</span>' : '<span class="badge badge-warn">বকেয়া</span>'}
+  </div>`).join('');
+
+document.getElementById('profileSections').innerHTML = [
+  ['ব্যক্তিগত তথ্য','নাম, জন্মতারিখ, লিঙ্গ'],
+  ['যোগাযোগ','মোবাইল নম্বর, ইমেইল'],
+  ['ঠিকানা','বর্তমান ও স্থায়ী ঠিকানা'],
+  ['KYC','জাতীয় পরিচয়পত্র ও ছবি'],
+  ['আর্থিক তথ্য','আয়, ব্যাংক অ্যাকাউন্ট'],
+  ['নিরাপত্তা','পাসওয়ার্ড ও লগইন সেটিংস'],
+].map(([t,d])=>`<div class="card profile-row">
+  <div><div style="font-weight:700; font-size:14px;">${t}</div><div style="font-size:12px; color:var(--wv-text-muted); margin-top:2px;">${d}</div></div>
+  <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--wv-text-muted)"><path d="M9 6l6 6-6 6"/></svg>
+</div>`).join('');
+
+document.getElementById('payMethods').innerHTML = ['মোবাইল ফাইন্যান্সিয়াল সার্ভিস','ব্যাংক','অন্যান্য'].map((m,i)=>`
+  <label class="payment-method-row ${i===0?'selected':''}" onclick="selectPayMethod(this)">
+    <input type="radio" name="paymethod" ${i===0?'checked':''} style="accent-color:var(--wv-primary); width:18px;height:18px;">
+    <span style="font-size:14px; font-weight:600;">${m}</span>
+  </label>`).join('');
+function selectPayMethod(label){
+  document.querySelectorAll('.payment-method-row').forEach(r=>r.classList.remove('selected'));
+  label.classList.add('selected');
+}
+
+/* ===================== CALCULATOR ===================== */
+function bnNum(n){ return Math.round(n).toLocaleString('bn-BD'); }
+function updateCalc(){
+  const amount = +document.getElementById('calcAmount').value;
+  const tenure = +document.getElementById('calcTenure').value;
+  const rate = +document.getElementById('calcRate').value;
+  document.getElementById('calcAmountVal').textContent = '৳'+bnNum(amount);
+  document.getElementById('calcTenureVal').textContent = tenure.toLocaleString('bn-BD')+' মাস';
+  document.getElementById('calcRateVal').textContent = rate.toLocaleString('bn-BD')+'%';
+
+  const monthlyRate = rate/12/100;
+  let emi;
+  if(monthlyRate === 0){ emi = amount/tenure; }
+  else { emi = amount * monthlyRate * Math.pow(1+monthlyRate, tenure) / (Math.pow(1+monthlyRate, tenure)-1); }
+  const total = emi*tenure;
+  const interest = total-amount;
+  document.getElementById('calcEmi').textContent = '৳'+bnNum(emi);
+  document.getElementById('calcTotal').textContent = '৳'+bnNum(total);
+  document.getElementById('calcInterest').textContent = '৳'+bnNum(interest);
+
+  const donut = document.getElementById('calcDonut');
+  if(donut && total>0){
+    const principalDeg = Math.max(8, Math.min(352, (amount/total)*360));
+    donut.style.setProperty('--donut-deg', principalDeg.toFixed(1)+'deg');
+  }
+}
+updateCalc();
+
+/* ===================== NAVIGATION ===================== */
+const pageIds = ['home','loans','apply','success','login','register','dashboard','myloans','loanDetails','payment','profile','notifications'];
+function go(page, anchor){
+  pageIds.forEach(id=>{
+    const el = document.getElementById('page-'+id);
+    if(el) el.classList.remove('active');
+  });
+  const target = document.getElementById('page-'+page) || document.getElementById('page-home');
+  target.classList.add('active');
+  window.scrollTo({top:0, behavior:'instant'});
+
+  document.querySelectorAll('[data-nav]').forEach(el=>{
+    el.classList.toggle('active', el.getAttribute('data-nav')===page);
+  });
+
+  if(page==='apply') renderStep();
+  if(anchor){ setTimeout(()=>{ const a=document.getElementById(anchor); if(a) a.scrollIntoView({behavior:'smooth'}); }, 60); }
+}
+document.querySelectorAll('[data-nav]').forEach(el=>{
+  el.addEventListener('click', ()=> go(el.getAttribute('data-nav'), el.getAttribute('data-anchor')));
+});
+
+/* Header scroll shadow */
+const topbarEl = document.getElementById('topbarEl');
+window.addEventListener('scroll', ()=>{
+  topbarEl.classList.toggle('scrolled', window.scrollY > 6);
+}, {passive:true});
+
+/* ===================== AUTH ===================== */
+let resendTimer = null;
+function goOtp(){
+  const phone = document.getElementById('loginPhone').value.trim();
+  if(phone.length < 6){ toast('সঠিক মোবাইল নম্বর দিন','error'); return; }
+  document.getElementById('loginCardPhone').style.display='none';
+  document.getElementById('loginCardOtp').style.display='block';
+  const otpInputs = document.querySelectorAll('#loginCardOtp .otp-row input');
+  otpInputs.forEach(i=>i.value='');
+  otpInputs[0].focus();
+  startResendTimer();
+}
+document.querySelectorAll('#loginCardOtp .otp-row input').forEach((inp,i,arr)=>{
+  inp.addEventListener('input', ()=>{
+    inp.value = inp.value.replace(/[^0-9]/g,'');
+    if(inp.value && arr[i+1]) arr[i+1].focus();
+  });
+  inp.addEventListener('keydown', (e)=>{
+    if(e.key==='Backspace' && !inp.value && arr[i-1]) arr[i-1].focus();
+  });
+  inp.addEventListener('paste', (e)=>{
+    e.preventDefault();
+    const digits = (e.clipboardData.getData('text')||'').replace(/[^0-9]/g,'').split('');
+    arr.forEach((el,idx)=>{ el.value = digits[idx]||''; });
+    const next = arr[Math.min(digits.length,arr.length-1)];
+    if(next) next.focus();
+  });
+});
+function startResendTimer(){
+  let seconds = 30;
+  const btn = document.getElementById('resendBtn');
+  btn.classList.add('disabled');
+  btn.textContent = `আবার পাঠান (${seconds}s)`;
+  if(resendTimer) clearInterval(resendTimer);
+  resendTimer = setInterval(()=>{
+    seconds--;
+    if(seconds<=0){
+      clearInterval(resendTimer);
+      btn.classList.remove('disabled');
+      btn.textContent = 'কোড আবার পাঠান';
+    } else {
+      btn.textContent = `আবার পাঠান (${seconds}s)`;
+    }
+  }, 1000);
+}
+function resendOtp(){
+  const btn = document.getElementById('resendBtn');
+  if(btn.classList.contains('disabled')) return;
+  toast('নতুন কোড পাঠানো হয়েছে','success');
+  startResendTimer();
+}
+function doLogin(){ toast('সফলভাবে লগইন হয়েছে','success'); setTimeout(()=>go('dashboard'), 500); }
+function doPayment(){ toast('পেমেন্ট সফল হয়েছে (ডেমো)','success'); setTimeout(()=>go('dashboard'), 700); }
+
+/* ===================== TOAST ===================== */
+function toast(msg, type){
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast'+(type==='success'?' success':(type==='error'?' error':''));
+  el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(()=>{ el.remove(); }, 2600);
+}
+
+/* ===================== APPLY FLOW ===================== */
+let currentStep = 1;
+const totalSteps = 6;
+const stepTitles = ['মৌলিক তথ্য','ব্যক্তিগত তথ্য','KYC যাচাই','ঋণের প্রয়োজনীয়তা','আর্থিক তথ্য','পর্যালোচনা ও জমা'];
+const appData = {
+  profession:'', income:'', education:'', marital:'', district:'',
+  father:'', mother:'', nid:'', currentAddr:'', permAddr:'',
+  kycFront:false, kycBack:false, kycSelfie:false,
+  loanType:'', loanAmount:50000, loanTenure:12, loanPurpose:'', repayType:'',
+  bank:'', accType:'', accNumber:'', monthlyExpense:'', otherLoans:'',
+  agree:false
+};
+
+function renderProgress(){
+  let html = '';
+  for(let i=1;i<=totalSteps;i++){
+    let cls = i<currentStep?'done':(i===currentStep?'current':'');
+    html += `<div class="progress-dot ${cls}">${i<currentStep?'✓':i}</div>`;
+    if(i<totalSteps) html += `<div class="progress-line ${i<currentStep?'done':''}"></div>`;
+  }
+  document.getElementById('progressTrack').innerHTML = html;
+  document.getElementById('stepLabel').textContent = `ধাপ ${currentStep.toLocaleString('bn-BD')} / ৬`;
+
+  const rail = document.getElementById('applyRail');
+  if(rail){
+    rail.innerHTML = stepTitles.map((t,idx)=>{
+      const i = idx+1;
+      const cls = i<currentStep?'done':(i===currentStep?'current':'');
+      return `<div class="rail-item ${cls}">
+        <div class="rail-dot">${i<currentStep?'✓':i}</div>
+        <span>${t}</span>
+        <div class="rail-line"></div>
+      </div>`;
+    }).join('');
+  }
+}
+
+function choiceGroup(name, options, selected){
+  return `<div class="choice-grid">${options.map(o=>`
+    <div class="choice-card ${selected===o?'selected':''}" onclick="selectChoice('${name}','${o}')">${o}</div>`).join('')}</div>`;
+}
+function selectChoice(name, value){
+  appData[name] = value;
+  renderStep();
+}
+
+function renderStep(){
+  renderProgress();
+  const c = document.getElementById('stepContent');
+  let html = '';
+
+  if(currentStep===1){
+    html = `<div class="card form-card">
+      <h3>মৌলিক তথ্য</h3>
+      <div class="desc">আপনার সম্পর্কে কিছু প্রাথমিক তথ্য দিন</div>
+      <div class="field"><label>পেশার ধরন</label>${choiceGroup('profession',['চাকরিজীবী','ব্যবসায়ী','স্বনির্ভর','অন্যান্য'], appData.profession)}</div>
+      <div class="field"><label>মাসিক আয়</label><input type="text" id="f-income" placeholder="৳ পরিমাণ লিখুন" value="${appData.income}"></div>
+      <div class="field"><label>শিক্ষাগত যোগ্যতা</label>${choiceGroup('education',['এসএসসি','এইচএসসি','স্নাতক','স্নাতকোত্তর'], appData.education)}</div>
+      <div class="field"><label>বৈবাহিক অবস্থা</label>${choiceGroup('marital',['অবিবাহিত','বিবাহিত'], appData.marital)}</div>
+      <div class="field"><label>জেলা / শহর</label><input type="text" id="f-district" placeholder="যেমনঃ চট্টগ্রাম" value="${appData.district}"></div>
+    </div>`;
+  }
+  else if(currentStep===2){
+    html = `<div class="card form-card">
+      <h3>ব্যক্তিগত তথ্য</h3>
+      <div class="desc">পারিবারিক ও পরিচয় সংক্রান্ত তথ্য দিন</div>
+      <div class="form-grid two-col">
+        <div class="field"><label>পিতার নাম</label><input type="text" id="f-father" value="${appData.father}"></div>
+        <div class="field"><label>মাতার নাম</label><input type="text" id="f-mother" value="${appData.mother}"></div>
+      </div>
+      <div class="field"><label>জাতীয় পরিচয়পত্র নম্বর</label><input type="text" id="f-nid" placeholder="১০/১৭ সংখ্যার NID নম্বর" value="${appData.nid}"></div>
+      <div class="field"><label>বর্তমান ঠিকানা</label><textarea id="f-caddr">${appData.currentAddr}</textarea></div>
+      <div class="field"><label>স্থায়ী ঠিকানা</label><textarea id="f-paddr">${appData.permAddr}</textarea></div>
+    </div>`;
+  }
+  else if(currentStep===3){
+    html = `<div class="card form-card">
+      <h3>KYC যাচাই</h3>
+      <div class="desc">পরিচয় নিশ্চিতকরণের জন্য নিচের ডকুমেন্টগুলো দিন (ডেমো — কোনো ফাইল প্রকৃতপক্ষে আপলোড হয় না)</div>
+      <div style="margin-bottom:14px;">
+        <div class="upload-box ${appData.kycFront?'done':''}" onclick="mockUpload('kycFront')">
+          ${uploadIcon(appData.kycFront)}
+          <div class="u-title">${appData.kycFront?'NID সামনের অংশ আপলোড হয়েছে ✓':'NID সামনের অংশ নির্বাচন করুন'}</div>
+          <div class="u-sub">JPG, PNG (সর্বোচ্চ ৫MB)</div>
+        </div>
+      </div>
+      <div style="margin-bottom:14px;">
+        <div class="upload-box ${appData.kycBack?'done':''}" onclick="mockUpload('kycBack')">
+          ${uploadIcon(appData.kycBack)}
+          <div class="u-title">${appData.kycBack?'NID পেছনের অংশ আপলোড হয়েছে ✓':'NID পেছনের অংশ নির্বাচন করুন'}</div>
+          <div class="u-sub">JPG, PNG (সর্বোচ্চ ৫MB)</div>
+        </div>
+      </div>
+      <div>
+        <div class="upload-box ${appData.kycSelfie?'done':''}" onclick="mockUpload('kycSelfie')">
+          ${uploadIcon(appData.kycSelfie)}
+          <div class="u-title">${appData.kycSelfie?'সেলফি আপলোড হয়েছে ✓':'সেলফি তুলুন / আপলোড করুন'}</div>
+          <div class="u-sub">স্পষ্ট ও উজ্জ্বল আলোতে তোলা ছবি দিন</div>
+        </div>
+      </div>
+    </div>`;
+  }
+  else if(currentStep===4){
+    const emi = estimateEmi(appData.loanAmount, appData.loanTenure);
+    html = `<div class="card form-card">
+      <h3>ঋণের প্রয়োজনীয়তা</h3>
+      <div class="desc">আপনার ঋণের বিস্তারিত জানান</div>
+      <div class="field"><label>ঋণের ধরন</label>${choiceGroup('loanType',['সহজ ঋণ','ব্যবসায়িক ঋণ','জরুরি ঋণ'], appData.loanType)}</div>
+      <div class="field">
+        <label>প্রয়োজনীয় ঋণের পরিমাণ</label>
+        <input type="range" min="10000" max="100000" step="5000" value="${appData.loanAmount}" oninput="updateLoanAmt(this.value)">
+        <div class="range-value"><span>৳১০,০০০</span><span>৳${bnNum(appData.loanAmount)}</span><span>৳১,০০,০০০</span></div>
+      </div>
+      <div class="field">
+        <label>ঋণের মেয়াদ (মাস)</label>
+        <input type="range" min="3" max="24" step="1" value="${appData.loanTenure}" oninput="updateLoanTenure(this.value)">
+        <div class="range-value"><span>৩</span><span>${appData.loanTenure.toLocaleString('bn-BD')} মাস</span><span>২৪</span></div>
+      </div>
+      <div class="field"><label>ঋণের উদ্দেশ্য</label><textarea id="f-purpose" placeholder="সংক্ষেপে লিখুন">${appData.loanPurpose}</textarea></div>
+      <div class="field"><label>পরিশোধের ধরন</label>${choiceGroup('repayType',['মাসিক কিস্তি','এককালীন'], appData.repayType)}</div>
+      <div class="summary-box">
+        <div style="font-size:12.5px; font-weight:700; color:var(--wv-primary-dark); margin-bottom:6px;">আপনার নির্বাচিত ঋণ</div>
+        <div class="summary-row"><span>ঋণের পরিমাণ</span><b>৳${bnNum(appData.loanAmount)}</b></div>
+        <div class="summary-row"><span>মেয়াদ</span><b>${appData.loanTenure.toLocaleString('bn-BD')} মাস</b></div>
+        <div class="summary-row"><span>আনুমানিক মাসিক কিস্তি</span><b>৳${bnNum(emi)}</b></div>
+        <span class="estimate-tag" style="margin-top:8px;">আনুমানিক হিসাব</span>
+      </div>
+    </div>`;
+  }
+  else if(currentStep===5){
+    html = `<div class="card form-card">
+      <h3>আর্থিক তথ্য</h3>
+      <div class="desc">আপনার আর্থিক অবস্থা সম্পর্কে জানান</div>
+      <div class="field"><label>ব্যাংক / মোবাইল ফাইন্যান্সিয়াল সার্ভিস</label><input type="text" id="f-bank" placeholder="যেমনঃ বিকাশ, ডাচ-বাংলা ব্যাংক" value="${appData.bank}"></div>
+      <div class="field"><label>অ্যাকাউন্টের ধরন</label>${choiceGroup('accType',['সেভিংস','কারেন্ট','মোবাইল ব্যাংকিং'], appData.accType)}</div>
+      <div class="field"><label>অ্যাকাউন্ট নম্বর</label><input type="text" id="f-accnum" value="${appData.accNumber}"></div>
+      <div class="field"><label>মাসিক ব্যয়</label><input type="text" id="f-expense" placeholder="৳ পরিমাণ লিখুন" value="${appData.monthlyExpense}"></div>
+      <div class="field"><label>অন্যান্য ঋণ আছে কি?</label>${choiceGroup('otherLoans',['হ্যাঁ','না'], appData.otherLoans)}</div>
+    </div>`;
+  }
+  else if(currentStep===6){
+    const emi = estimateEmi(appData.loanAmount, appData.loanTenure);
+    html = `<div class="card form-card">
+      <h3>পর্যালোচনা ও জমা দিন</h3>
+      <div class="desc">জমা দেওয়ার আগে আপনার তথ্য যাচাই করুন</div>
+
+      <div class="review-block">
+        <div class="review-block-head"><h4>মৌলিক ও ব্যক্তিগত তথ্য</h4><button onclick="currentStep=1;renderStep()">পরিবর্তন করুন</button></div>
+        <div class="review-line">পেশা: ${appData.profession||'—'} • জেলা: ${appData.district||'—'}</div>
+        <div class="review-line">পিতা: ${appData.father||'—'} • মাতা: ${appData.mother||'—'}</div>
+        <div class="review-line">NID: ${appData.nid||'—'}</div>
+      </div>
+
+      <div class="review-block">
+        <div class="review-block-head"><h4>KYC</h4><span class="badge badge-soft">যাচাইয়ের জন্য প্রস্তুত</span></div>
+        <div class="review-line">NID সামনে: ${appData.kycFront?'✓':'✗'} • NID পেছনে: ${appData.kycBack?'✓':'✗'} • সেলফি: ${appData.kycSelfie?'✓':'✗'}</div>
+      </div>
+
+      <div class="review-block">
+        <div class="review-block-head"><h4>ঋণের তথ্য</h4><button onclick="currentStep=4;renderStep()">পরিবর্তন করুন</button></div>
+        <div class="review-line">${appData.loanType||'সহজ ঋণ'} • ৳${bnNum(appData.loanAmount)} • ${appData.loanTenure.toLocaleString('bn-BD')} মাস</div>
+        <div class="review-line">আনুমানিক মাসিক কিস্তি: ৳${bnNum(emi)}</div>
+      </div>
+
+      <div class="review-block">
+        <div class="review-block-head"><h4>আর্থিক তথ্য</h4><button onclick="currentStep=5;renderStep()">পরিবর্তন করুন</button></div>
+        <div class="review-line">${appData.bank||'—'} • ${appData.accType||'—'}</div>
+      </div>
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="f-agree" ${appData.agree?'checked':''} onchange="appData.agree=this.checked; renderStep()">
+        <span>আমি প্রদত্ত তথ্য সঠিক বলে নিশ্চিত করছি।</span>
+      </label>
+    </div>`;
+  }
+
+  c.innerHTML = html + `<div class="apply-nav">
+      ${currentStep>1 ? `<button class="btn btn-ghost" style="flex:1" onclick="prevStep()">পূর্ববর্তী</button>` : ''}
+      ${currentStep<totalSteps ? `<button class="btn btn-primary" style="flex:2" onclick="nextStep()">পরবর্তী ধাপ</button>` : `<button class="btn btn-primary" style="flex:2" ${!appData.agree?'disabled':''} onclick="submitApplication()">আবেদন জমা দিন</button>`}
+    </div>`;
+}
+
+function uploadIcon(done){
+  return done
+    ? `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#18865B" stroke-width="2.4"><path d="m5 13 4 4L19 7"/></svg>`
+    : `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7A8784" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>`;
+}
+function mockUpload(key){ appData[key] = true; toast('ডকুমেন্ট আপলোড হয়েছে (ডেমো)','success'); renderStep(); }
+function updateLoanAmt(v){ appData.loanAmount = +v; renderStep(); }
+function updateLoanTenure(v){ appData.loanTenure = +v; renderStep(); }
+function estimateEmi(amount, tenure){
+  const monthlyRate = 0.12/12;
+  return amount * monthlyRate * Math.pow(1+monthlyRate, tenure) / (Math.pow(1+monthlyRate, tenure)-1);
+}
+
+function captureStepInputs(){
+  const g = id => document.getElementById(id);
+  if(currentStep===1){ if(g('f-income')) appData.income=g('f-income').value; if(g('f-district')) appData.district=g('f-district').value; }
+  if(currentStep===2){
+    if(g('f-father')) appData.father=g('f-father').value;
+    if(g('f-mother')) appData.mother=g('f-mother').value;
+    if(g('f-nid')) appData.nid=g('f-nid').value;
+    if(g('f-caddr')) appData.currentAddr=g('f-caddr').value;
+    if(g('f-paddr')) appData.permAddr=g('f-paddr').value;
+  }
+  if(currentStep===4){ if(g('f-purpose')) appData.loanPurpose=g('f-purpose').value; }
+  if(currentStep===5){
+    if(g('f-bank')) appData.bank=g('f-bank').value;
+    if(g('f-accnum')) appData.accNumber=g('f-accnum').value;
+    if(g('f-expense')) appData.monthlyExpense=g('f-expense').value;
+  }
+}
+function nextStep(){
+  captureStepInputs();
+  if(currentStep<totalSteps){ currentStep++; renderStep(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+function prevStep(){
+  captureStepInputs();
+  if(currentStep>1){ currentStep--; renderStep(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+function submitApplication(){
+  if(!appData.agree){ toast('তথ্য সঠিক বলে নিশ্চিত করুন','error'); return; }
+  const id = 'LN-2026-' + Math.floor(100000+Math.random()*899999);
+  document.getElementById('successAppId').textContent = id;
+  toast('আবেদন সফলভাবে জমা হয়েছে','success');
+  currentStep = 1;
+  go('success');
+}
+
+/* init */
+go('home');
+</script>
+</body>
+</html>
