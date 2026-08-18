@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0">
+<title>World Vision Finance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --wv-primary:#087F6A;
+    --wv-primary-deep:#075E54;
+    --wv-primary-dark:#073B3A;
+    --wv-primary-soft:#E5F1EE;
+    --wv-primary-tint:#F1F8F6;
+
+    --wv-gold:#C8A951;
+    --wv-gold-dark:#9C7F35;
+    --wv-gold-soft:#F8F1DE;
+
+    --wv-bg:#F5F7F6;
+    --wv-surface:#FFFFFF;
+
+    --wv-text:#0F1F1C;
+    --wv-text-secondary:#63716D;
+    --wv-text-muted:#9AA5A2;
+    --wv-border:#E7ECEA;
+
+    --wv-success:#16865B;
+    --wv-error:#D14C3F;
+
+    --radius-sm:12px;
+    --radius-md:16px;
+    --radius-lg:22px;
+    --radius-pill:999px;
+
+    --shadow-sm:0 1px 3px rgba(7,59,58,0.06);
+    --shadow-md:0 10px 30px rgba(7,59,58,0.10);
+    --shadow-lg:0 24px 60px rgba(7,59,58,0.16);
+
+    --navbar-h:56px;
+    --ease:cubic-bezier(0.22,1,0.36,1);
+    --shell-w:480px;
+  }
+
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Hind Siliguri','Noto Sans Bengali',system-ui,sans-serif;
+    background:var(--wv-bg);
+    color:var(--wv-text);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+    min-height:100vh;
+    min-height:100dvh;
+  }
+  h1,h2,h3,h4{font-family:'Noto Sans Bengali','Hind Siliguri',sans-serif; margin:0; letter-spacing:-0.01em; font-weight:800;}
+  p{margin:0;}
+  button{font-family:inherit;}
+  ::selection{background:var(--wv-primary-soft); color:var(--wv-primary-dark);}
+  :focus-visible{outline:2.5px solid #256B8F; outline-offset:2px; border-radius:6px;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  /* ============ APP SHELL ============ */
+  /* Full-bleed on mobile like a real installed app; a centered production
+     panel (Stripe/Wise/Mercury style) on wider viewports — never a fake
+     phone bezel. */
+  .app-outer{
+    min-height:100vh; min-height:100dvh;
+    display:flex; justify-content:center;
+  }
+  .app-shell{
+    width:100%; max-width:var(--shell-w);
+    min-height:100vh; min-height:100dvh;
+    background:var(--wv-surface);
+    display:flex; flex-direction:column;
+    position:relative;
+    overflow:hidden;
+  }
+  @media (min-width:680px){
+    .app-outer{ align-items:center; padding:40px 20px; background:
+      radial-gradient(900px 480px at 50% -10%, rgba(8,127,106,0.08), transparent 60%), var(--wv-bg);
+    }
+    .app-shell{
+      min-height:min(860px, 92vh); height:min(860px, 92vh);
+      border-radius:28px;
+      box-shadow:var(--shadow-lg), 0 0 0 1px var(--wv-border);
+    }
+  }
+
+  .app-body{flex:1; position:relative; overflow:hidden; display:flex; flex-direction:column;}
+  .screens{flex:1; position:relative; overflow:hidden;}
+  .scr{
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    transform:translateX(100%); opacity:0; transition:transform .38s var(--ease), opacity .3s var(--ease);
+    pointer-events:none; background:var(--wv-surface);
+  }
+  .scr.active{transform:translateX(0); opacity:1; pointer-events:auto;}
+
+  .scr-scroll{flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:0 22px 24px;}
+  .scr-scroll::-webkit-scrollbar{width:0; display:none;}
+
+  /* Native nav bar */
+  .navbar{
+    height:var(--navbar-h); flex-shrink:0; display:flex; align-items:center; gap:10px;
+    padding:0 12px; position:relative; margin-top:8px;
+  }
+  .nav-back{
+    width:38px;height:38px; border-radius:50%; border:none; background:rgba(7,59,58,0.05);
+    display:flex; align-items:center; justify-content:center; color:var(--wv-primary-dark); cursor:pointer;
+    transition:background .15s, transform .12s;
+  }
+  .nav-back:active{transform:scale(0.9); background:rgba(7,59,58,0.12);}
+  .nav-back svg{width:19px;height:19px;}
+  .nav-title{font-size:16px; font-weight:800; color:var(--wv-text); position:absolute; left:0; right:0; text-align:center; pointer-events:none;}
+  .nav-step{margin-left:auto; margin-right:2px; font-size:12px; font-weight:700; color:var(--wv-text-muted); background:rgba(7,59,58,0.05); padding:5px 11px; border-radius:var(--radius-pill);}
+
+  /* Segmented progress (native pagination) */
+  .seg-progress{display:flex; gap:5px; padding:2px 4px 16px;}
+  .seg-progress i{flex:1; height:4px; border-radius:3px; background:var(--wv-border); transition:background .3s var(--ease);}
+  .seg-progress i.done, .seg-progress i.current{background:var(--wv-primary-deep);}
+
+  /* Cards / fields */
+  .field{margin-bottom:16px;}
+  .field label{display:block; font-size:13px; font-weight:700; color:var(--wv-text); margin-bottom:8px;}
+  .field .hint{font-size:11.5px; color:var(--wv-text-muted); margin-top:6px;}
+  input[type=text], input[type=tel], input[type=number], select, textarea{
+    width:100%; padding:14px 15px; border-radius:var(--radius-sm); border:1.5px solid var(--wv-border);
+    font-size:15px; font-family:inherit; background:#fff; color:var(--wv-text); transition:border-color .15s, box-shadow .15s;
+    min-height:50px; -webkit-appearance:none; appearance:none;
+  }
+  input:focus, select:focus, textarea:focus{border-color:var(--wv-primary); outline:none; box-shadow:0 0 0 4px var(--wv-primary-soft);}
+  textarea{resize:none; min-height:78px;}
+
+  .choice-grid{display:grid; grid-template-columns:1fr 1fr; gap:9px;}
+  .choice-card{
+    border:1.5px solid var(--wv-border); background:#fff; border-radius:var(--radius-sm); padding:13px 12px;
+    cursor:pointer; font-size:13.5px; font-weight:600; text-align:center; transition:all .15s; color:var(--wv-text-secondary);
+  }
+  .choice-card:active{transform:scale(0.97);}
+  .choice-card.selected{border-color:var(--wv-primary-deep); background:var(--wv-primary-soft); color:var(--wv-primary-deep);}
+
+  /* Inline field validation */
+  .field.has-error input, .field.has-error textarea{ border-color:var(--wv-error); background:#FDF4F3; }
+  .field.has-error input:focus, .field.has-error textarea:focus{ box-shadow:0 0 0 4px rgba(209,76,63,0.12); }
+  .choice-grid.has-error .choice-card{ border-color:var(--wv-error); }
+  .field-error-msg{ display:flex; align-items:flex-start; gap:6px; color:var(--wv-error); font-size:12.5px; font-weight:600; margin-top:7px; line-height:1.4; animation:errIn .18s var(--ease); }
+  .field-error-msg svg{ flex:0 0 auto; margin-top:1px; }
+  @keyframes errIn{ from{opacity:0; transform:translateY(-3px);} to{opacity:1; transform:translateY(0);} }
+  .field.has-error input, .field.has-error textarea{ animation:shakeErr .3s var(--ease); }
+  @keyframes shakeErr{ 0%,100%{transform:translateX(0);} 25%{transform:translateX(-4px);} 75%{transform:translateX(4px);} }
+
+  input[type=range]{width:100%; accent-color:var(--wv-primary); height:5px; cursor:pointer;}
+  .range-value{display:flex; justify-content:space-between; font-size:11.5px; color:var(--wv-text-muted); margin-top:6px;}
+  .range-current{text-align:center; font-size:21px; font-weight:800; color:var(--wv-primary-dark); margin:2px 0 10px;}
+
+  .emi-card{
+    background:linear-gradient(160deg,var(--wv-primary-tint),#fff); border:1px solid var(--wv-primary-soft);
+    border-radius:var(--radius-md); padding:16px; margin-top:6px;
+  }
+  .emi-row{display:flex; justify-content:space-between; font-size:13px; padding:6px 0;}
+  .emi-row b{font-weight:800; color:var(--wv-primary-dark);}
+  .emi-row.total{border-top:1px dashed var(--wv-primary-soft); margin-top:4px; padding-top:10px;}
+
+  /* Bottom sticky CTA (native) */
+  .bottom-cta{
+    flex-shrink:0; padding:12px 22px calc(16px + env(safe-area-inset-bottom));
+    background:linear-gradient(180deg, rgba(255,255,255,0) 0%, var(--wv-surface) 32%);
+    display:flex; gap:10px;
+  }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-weight:700; font-size:15.5px; border-radius:var(--radius-sm); border:none; cursor:pointer;
+    padding:15px 20px; transition:transform .12s, background .15s, box-shadow .15s, opacity .15s;
+    min-height:52px; white-space:nowrap; flex:1;
+  }
+  .btn:active{transform:scale(0.965);}
+  .btn-primary{background:var(--wv-primary-deep); color:#fff; box-shadow:0 8px 20px rgba(7,94,84,0.30);}
+  .btn-primary:hover{background:var(--wv-primary-dark);}
+  .btn-primary:disabled{opacity:.4; box-shadow:none;}
+  .btn-ghost{background:rgba(7,59,58,0.05); color:var(--wv-text-secondary); flex:0 0 auto; padding:15px 22px;}
+  .btn-block{width:100%;}
+
+  /* Login screen */
+  .login-hero{padding:8px 4px 24px; text-align:center;}
+  .login-logo{
+    width:64px;height:64px;border-radius:19px; background:linear-gradient(155deg,var(--wv-primary),var(--wv-primary-dark));
+    color:#fff; display:flex; align-items:center; justify-content:center; margin:14px auto 18px;
+    box-shadow:0 10px 24px rgba(7,59,58,0.28); position:relative;
+  }
+  .login-logo::after{content:'';position:absolute; inset:-4px; border-radius:23px; border:1.5px solid var(--wv-gold); opacity:.5;}
+  .login-hero h1{font-size:22px;}
+  .login-hero p{font-size:13.5px; color:var(--wv-text-secondary); margin-top:8px; padding:0 10px;}
+
+  .otp-row{display:flex; gap:8px; justify-content:center; margin:22px 0 6px;}
+  .otp-row input{width:42px; height:52px; text-align:center; font-size:20px; font-weight:800; padding:0;}
+  .otp-row input.otp-error{border-color:var(--wv-error); background:#FDF4F3; animation:shakeErr .3s var(--ease);}
+  .resend{text-align:center; font-size:12.5px; color:var(--wv-text-muted); margin-top:14px;}
+  .resend b{color:var(--wv-primary-dark); cursor:pointer; font-weight:700;}
+  .resend b.disabled{color:var(--wv-text-muted); cursor:default;}
+  .security-note{display:flex; align-items:center; gap:7px; justify-content:center; font-size:11.5px; color:var(--wv-text-muted); margin-top:22px;}
+  .security-note svg{width:13px;height:13px; color:var(--wv-primary); flex-shrink:0;}
+
+  /* Login screens — professional tinted background instead of flat white */
+  .scr-login{background:var(--wv-bg);}
+  .scr-login .login-hero{
+    background:
+      radial-gradient(420px 220px at 50% 0%, rgba(200,169,81,0.16), transparent 65%),
+      linear-gradient(160deg, var(--wv-primary-dark), var(--wv-primary-deep));
+    margin:0 -22px; padding:36px 22px 46px; border-radius:0 0 30px 30px;
+  }
+  .scr-login .login-hero h1{color:#fff;}
+  .scr-login .login-hero p{color:rgba(255,255,255,0.72);}
+  .scr-login .login-logo{background:linear-gradient(155deg,var(--wv-gold),var(--wv-gold-dark)); box-shadow:0 10px 24px rgba(0,0,0,0.28);}
+  .scr-login .login-card{
+    background:var(--wv-surface); border-radius:var(--radius-lg); padding:22px 20px 6px;
+    box-shadow:var(--shadow-md); margin-top:-26px; position:relative;
+  }
+  .scr-login .security-note{color:var(--wv-text-muted);}
+
+  .login-divider{display:flex; align-items:center; gap:12px; margin:26px 0 16px; color:var(--wv-text-muted); font-size:12px; font-weight:600;}
+  .login-divider::before, .login-divider::after{content:''; flex:1; height:1px; background:var(--wv-border);}
+
+  .auth-tabs{display:flex; background:var(--wv-bg); border-radius:var(--radius-pill); padding:4px; margin-bottom:20px;}
+  .auth-tab{
+    flex:1; border:none; background:transparent; padding:11px 10px; border-radius:var(--radius-pill);
+    font-weight:700; font-size:13.5px; color:var(--wv-text-secondary); cursor:pointer; transition:all .18s var(--ease);
+  }
+  .auth-tab.active{background:var(--wv-surface); color:var(--wv-primary-deep); box-shadow:var(--shadow-sm);}
+
+  /* Upload cards (KYC) */
+  .upload-card{
+    border:1.5px dashed var(--wv-border); border-radius:var(--radius-md); padding:16px; display:flex; align-items:center; gap:13px;
+    cursor:pointer; transition:all .15s; background:#fff; margin-bottom:11px;
+  }
+  .upload-card:active{transform:scale(0.98);}
+  .upload-card.done{border-style:solid; border-color:var(--wv-success); background:#EEFAF3;}
+  .upload-thumb{width:46px;height:46px;border-radius:11px; background:var(--wv-primary-soft); color:var(--wv-primary-deep); display:flex;align-items:center;justify-content:center; flex-shrink:0;}
+  .upload-card.done .upload-thumb{background:var(--wv-success); color:#fff;}
+  .upload-text .u-title{font-size:13.5px; font-weight:700;}
+  .upload-text .u-sub{font-size:11.5px; color:var(--wv-text-muted); margin-top:2px;}
+  .upload-chev{margin-left:auto; color:var(--wv-text-muted); flex-shrink:0;}
+
+  .kyc-section-label{font-size:11.5px; font-weight:800; color:var(--wv-text-muted); text-transform:uppercase; letter-spacing:.04em; margin:18px 0 10px;}
+  .kyc-section-label:first-child{margin-top:0;}
+
+  /* Face verification */
+  .face-panel{
+    background:#0E1F1D; border-radius:var(--radius-lg); padding:28px 20px 22px; text-align:center; position:relative; overflow:hidden; margin-bottom:8px;
+  }
+  .face-ring-wrap{width:168px;height:168px; margin:0 auto 16px; position:relative;}
+  .face-ring{
+    width:100%;height:100%; border-radius:50%; border:3px solid rgba(255,255,255,0.14);
+    display:flex; align-items:center; justify-content:center; position:relative;
+  }
+  .face-ring.scanning{border-color:var(--wv-gold); animation:pulseRing 1.4s ease-in-out infinite;}
+  .face-ring.done{border-color:var(--wv-success);}
+  @keyframes pulseRing{0%,100%{box-shadow:0 0 0 0 rgba(200,169,81,0.35);} 50%{box-shadow:0 0 0 10px rgba(200,169,81,0);}}
+  .face-ring svg{color:rgba(255,255,255,0.55); width:56px;height:56px;}
+  .face-ring.done svg{color:var(--wv-success);}
+  .face-scan-arc{
+    position:absolute; inset:-3px; border-radius:50%; border:3px solid transparent; border-top-color:var(--wv-gold);
+    animation:spin 1.1s linear infinite; display:none;
+  }
+  .face-ring.scanning .face-scan-arc{display:block;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .face-status{color:#fff; font-size:14px; font-weight:700; margin-top:2px;}
+  .face-hint{color:rgba(255,255,255,0.55); font-size:12px; margin-top:6px;}
+  .face-tips{display:flex; justify-content:center; gap:14px; margin-top:16px;}
+  .face-tip{display:flex; flex-direction:column; align-items:center; gap:5px; color:rgba(255,255,255,0.5); font-size:10.5px;}
+  .face-tip svg{width:16px;height:16px;}
+  .face-scan-btn{margin-top:18px; background:var(--wv-gold); color:#3a2f10; width:100%; border:none; border-radius:12px; padding:13px; font-weight:800; font-size:13.5px; cursor:pointer; transition:transform .12s, background .15s;}
+  .face-scan-btn:active{transform:scale(0.97);}
+  .face-scan-btn:hover{background:#bb9640;}
+
+  /* Review */
+  .review-block{border:1px solid var(--wv-border); border-radius:var(--radius-md); padding:16px; margin-bottom:12px; background:#fff;}
+  .review-block-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;}
+  .review-block-head h4{font-size:13.5px; font-weight:800;}
+  .review-block-head button{background:none; border:none; color:#256B8F; font-size:12px; font-weight:700; cursor:pointer; padding:2px;}
+  .review-line{font-size:12.5px; color:var(--wv-text-secondary); padding:2px 0;}
+  .checkbox-row{display:flex; align-items:flex-start; gap:10px; padding:14px 2px 4px; font-size:13px; color:var(--wv-text-secondary);}
+  .checkbox-row input{width:19px;height:19px; accent-color:var(--wv-primary); margin-top:1px; flex-shrink:0;}
+
+  /* Success */
+  .success-wrap{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px 28px; text-align:center;}
+  .success-icon{width:78px;height:78px; border-radius:50%; background:var(--wv-primary-soft); color:var(--wv-primary-deep); display:flex; align-items:center; justify-content:center; margin-bottom:20px; box-shadow:0 0 0 8px rgba(8,127,106,0.06);}
+  .success-icon svg{stroke-dasharray:40; stroke-dashoffset:40; animation:drawCheck .5s .1s ease forwards;}
+  @keyframes drawCheck{to{stroke-dashoffset:0;}}
+  .success-wrap h2{font-size:20px; margin-bottom:8px;}
+  .success-wrap p{font-size:13px; color:var(--wv-text-secondary); max-width:280px;}
+  .app-id{font-family:'SF Mono',monospace; font-size:14px; background:var(--wv-bg); border:1px solid var(--wv-border); padding:9px 16px; border-radius:var(--radius-sm); display:inline-block; margin:16px 0; font-weight:700; color:var(--wv-primary-dark);}
+  .status-track{display:flex; align-items:center; justify-content:center; margin:6px 0 4px; gap:0;}
+  .status-track .st-dot{width:26px;height:26px;border-radius:50%; background:#fff; border:2px solid var(--wv-border); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:11px; font-weight:800; color:var(--wv-text-muted);}
+  .status-track .st-dot.done{background:var(--wv-primary-deep); border-color:var(--wv-primary-deep); color:#fff;}
+  .status-track .st-line{width:30px;height:2px; background:var(--wv-border);}
+  .status-labels{display:flex; justify-content:center; gap:2px; margin-top:9px; font-size:9.5px; color:var(--wv-text-muted); font-weight:700;}
+  .status-labels span{width:56px;}
+
+  /* Toast */
+  .toast-wrap{position:absolute; top:14px; left:16px; right:16px; z-index:200; display:flex; flex-direction:column; gap:8px; pointer-events:none;}
+  .toast{background:rgba(7,59,58,0.94); backdrop-filter:blur(6px); color:#fff; padding:13px 16px; border-radius:14px; font-size:13px; font-weight:600; display:flex; align-items:center; gap:9px; box-shadow:var(--shadow-lg); animation:toastIn .3s var(--ease);}
+  .toast.success{background:rgba(22,134,91,0.94);}
+  .toast.error{background:rgba(209,76,63,0.94);}
+  .toast svg{width:16px;height:16px; flex-shrink:0;}
+  @keyframes toastIn{from{opacity:0; transform:translateY(-14px) scale(0.96);} to{opacity:1; transform:translateY(0) scale(1);}}
+</style>
+</head>
+<body>
+
+<div class="app-outer">
+  <div class="app-shell">
+
+    <div class="toast-wrap" id="toastWrap"></div>
+
+    <div class="app-body">
+      <div class="screens" id="screens">
+
+        <!-- ============ LOGIN — PHONE ============ -->
+        <section class="scr scr-login active" id="scr-loginPhone">
+          <div class="scr-scroll">
+            <div class="login-hero">
+              <div class="login-logo">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z" stroke-width="2" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h1>World Vision Finance</h1>
+              <p id="loginHeroText">আপনার মোবাইল নম্বর দিয়ে প্রবেশ করুন</p>
+            </div>
+            <div class="login-card">
+              <div class="auth-tabs">
+                <button type="button" class="auth-tab active" id="tabLogin" onclick="setAuthMode('login')">লগইন</button>
+                <button type="button" class="auth-tab" id="tabRegister" onclick="setAuthMode('register')">নতুন নিবন্ধন</button>
+              </div>
+              <div class="field" id="registerNameField" style="display:none;">
+                <label>পূর্ণ নাম</label>
+                <input type="text" id="registerName" placeholder="আপনার পূর্ণ নাম লিখুন" oninput="clearLoginError('registerName')">
+                <div class="field-error-msg" id="err-registerName" style="display:none;"></div>
+              </div>
+              <div class="field" id="field-loginPhone">
+                <label>মোবাইল নম্বর</label>
+                <input type="tel" id="loginPhone" placeholder="০১৭ XX XXX XXX" inputmode="numeric" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,11); clearLoginError('loginPhone')">
+                <div class="field-error-msg" id="err-loginPhone" style="display:none;"></div>
+              </div>
+              <div class="security-note">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                নিরাপদ সংযোগের মাধ্যমে তথ্য আদান-প্রদান করা হয়
+              </div>
+            </div>
+          </div>
+          <div class="bottom-cta">
+            <button class="btn btn-primary btn-block" id="loginCtaBtn" onclick="goOtp()">কোড পাঠান</button>
+          </div>
+        </section>
+
+        <!-- ============ LOGIN — OTP ============ -->
+        <section class="scr scr-login" id="scr-loginOtp">
+          <div class="navbar">
+            <button class="nav-back" onclick="showScreen('loginPhone')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+          </div>
+          <div class="scr-scroll">
+            <div class="login-hero" style="padding-top:12px;">
+              <div class="login-logo" style="width:56px;height:56px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="10" width="18" height="11" rx="2" stroke-width="2"/><path d="M7 10V7a5 5 0 0 1 10 0v3" stroke-width="2"/></svg>
+              </div>
+              <h1 style="font-size:20px;">OTP কোড দিন</h1>
+              <p>আপনার মোবাইলে পাঠানো ৬ সংখ্যার কোড দিন</p>
+            </div>
+            <div class="login-card">
+              <div class="otp-row">
+                <input type="text" maxlength="1" inputmode="numeric">
+                <input type="text" maxlength="1" inputmode="numeric">
+                <input type="text" maxlength="1" inputmode="numeric">
+                <input type="text" maxlength="1" inputmode="numeric">
+                <input type="text" maxlength="1" inputmode="numeric">
+                <input type="text" maxlength="1" inputmode="numeric">
+              </div>
+              <div class="resend">কোড পাননি? <b id="resendBtn" onclick="resendOtp()">আবার পাঠান</b></div>
+              <div class="security-note">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 3.8 8.7 9 10 5.2-1.3 9-5 9-10V6l-9-4Z"/></svg>
+                এই কোডটি কারও সাথে শেয়ার করবেন না
+              </div>
+            </div>
+          </div>
+          <div class="bottom-cta">
+            <button class="btn btn-primary btn-block" onclick="doLogin()">যাচাই করুন</button>
+          </div>
+        </section>
+
+        <!-- ============ APPLICATION FLOW ============ -->
+        <section class="scr" id="scr-apply">
+          <div class="navbar">
+            <button class="nav-back" onclick="prevStep()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <span class="nav-title" id="applyNavTitle">আবেদন</span>
+            <span class="nav-step" id="applyNavStep">১ / ৬</span>
+          </div>
+          <div style="padding:0 22px;">
+            <div class="seg-progress" id="segProgress"></div>
+          </div>
+          <div class="scr-scroll" id="stepContent"></div>
+          <div class="bottom-cta" id="applyCta"></div>
+        </section>
+
+        <!-- ============ SUCCESS ============ -->
+        <section class="scr" id="scr-success">
+          <div class="success-wrap">
+            <div class="success-icon">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="m5 13 4 4L19 7"/></svg>
+            </div>
+            <h2>আবেদন জমা হয়েছে</h2>
+            <p>আমরা শীঘ্রই আপনার আবেদন পর্যালোচনা করব</p>
+            <div class="app-id" id="successAppId">LN-2026-000123</div>
+            <div class="status-track">
+              <div class="st-dot done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="m5 13 4 4L19 7"/></svg></div>
+              <div class="st-line"></div>
+              <div class="st-dot">২</div>
+              <div class="st-line"></div>
+              <div class="st-dot">৩</div>
+              <div class="st-line"></div>
+              <div class="st-dot">৪</div>
+            </div>
+            <div class="status-labels">
+              <span>জমা</span><span>যাচাই</span><span>অনুমোদন</span><span>বিতরণ</span>
+            </div>
+          </div>
+          <div class="bottom-cta">
+            <button class="btn btn-ghost" onclick="restartApp()">শেষ</button>
+            <button class="btn btn-primary" onclick="toast('স্ট্যাটাস পাতা শীঘ্রই আসছে (ডেমো)')">অবস্থা দেখুন</button>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function bnDigits(str){ const m={'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'}; return String(str).replace(/[0-9]/g,d=>m[d]); }
+function bnNum(n){ return Math.round(n).toLocaleString('bn-BD'); }
+function errIcon(){ return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>'; }
+
+/* Login-screen inline error helpers */
+function showLoginError(key, msg){
+  const wrap = document.getElementById('field-'+key) || document.getElementById(key+'Field');
+  const box = document.getElementById('err-'+key);
+  if(wrap) wrap.classList.add('has-error');
+  if(box){ box.style.display='flex'; box.innerHTML = errIcon()+'<span>'+msg+'</span>'; }
+}
+function clearLoginError(key){
+  const wrap = document.getElementById('field-'+key) || document.getElementById(key+'Field');
+  const box = document.getElementById('err-'+key);
+  if(wrap) wrap.classList.remove('has-error');
+  if(box){ box.style.display='none'; box.innerHTML=''; }
+}
+
+/* ===================== TOAST ===================== */
+function toast(msg, type){
+  const wrap = document.getElementById('toastWrap');
+  const el = document.createElement('div');
+  el.className = 'toast'+(type==='success'?' success':(type==='error'?' error':''));
+  const iconMap = {
+    success:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m5 13 4 4L19 7"/></svg>',
+    error:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>',
+    info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg>'
+  };
+  el.innerHTML = (iconMap[type]||iconMap.info) + '<span>'+msg+'</span>';
+  wrap.appendChild(el);
+  setTimeout(()=>{ el.style.transition='opacity .25s, transform .25s'; el.style.opacity='0'; el.style.transform='translateY(-10px)'; setTimeout(()=>el.remove(),260); }, 2400);
+}
+
+/* ===================== SCREEN NAVIGATION ===================== */
+const screenIds = ['loginPhone','loginOtp','apply','success'];
+function showScreen(id){
+  screenIds.forEach(s=>{
+    const el = document.getElementById('scr-'+s);
+    if(!el) return;
+    el.classList.remove('active');
+  });
+  document.getElementById('scr-'+id).classList.add('active');
+  const scroller = document.getElementById('scr-'+id).querySelector('.scr-scroll');
+  if(scroller) scroller.scrollTop = 0;
+}
+
+/* ===================== LOGIN ===================== */
+let resendTimer = null;
+let authMode = 'login';
+function setAuthMode(mode){
+  authMode = mode;
+  document.getElementById('tabLogin').classList.toggle('active', mode==='login');
+  document.getElementById('tabRegister').classList.toggle('active', mode==='register');
+  document.getElementById('registerNameField').style.display = mode==='register' ? 'block' : 'none';
+  document.getElementById('loginHeroText').textContent = mode==='register'
+    ? 'নতুন অ্যাকাউন্ট তৈরি করতে তথ্য দিন'
+    : 'আপনার মোবাইল নম্বর দিয়ে প্রবেশ করুন';
+  document.getElementById('loginCtaBtn').textContent = mode==='register' ? 'নিবন্ধন করুন' : 'কোড পাঠান';
+}
+function goOtp(){
+  clearLoginError('loginPhone');
+  clearLoginError('registerName');
+  const phone = document.getElementById('loginPhone').value.trim();
+  let firstError = null;
+
+  if(authMode==='register'){
+    const name = document.getElementById('registerName').value.trim();
+    if(!name){ showLoginError('registerName','আপনার পূর্ণ নাম লিখুন'); firstError = firstError||'registerName'; }
+    else if(name.length < 3){ showLoginError('registerName','সঠিক পূর্ণ নাম লিখুন (কমপক্ষে ৩ অক্ষর)'); firstError = firstError||'registerName'; }
+  }
+
+  if(!phone){ showLoginError('loginPhone','মোবাইল নম্বর লিখুন'); firstError = firstError||'loginPhone'; }
+  else if(!/^01[3-9]\d{8}$/.test(phone)){ showLoginError('loginPhone','সঠিক ১১ সংখ্যার মোবাইল নম্বর দিন (যেমনঃ ০১৭xxxxxxxx)'); firstError = firstError||'loginPhone'; }
+
+  if(firstError){
+    toast(document.getElementById('err-'+firstError).textContent,'error');
+    document.getElementById(firstError).focus();
+    return;
+  }
+
+  showScreen('loginOtp');
+  const otpInputs = document.querySelectorAll('#scr-loginOtp .otp-row input');
+  otpInputs.forEach(i=>i.value='');
+  setTimeout(()=>otpInputs[0].focus(), 400);
+  startResendTimer();
+}
+document.querySelectorAll('#scr-loginOtp .otp-row input').forEach((inp,i,arr)=>{
+  inp.addEventListener('input', ()=>{
+    inp.value = inp.value.replace(/[^0-9]/g,'');
+    if(inp.value && arr[i+1]) arr[i+1].focus();
+  });
+  inp.addEventListener('keydown', (e)=>{
+    if(e.key==='Backspace' && !inp.value && arr[i-1]) arr[i-1].focus();
+  });
+  inp.addEventListener('paste', (e)=>{
+    e.preventDefault();
+    const digits = (e.clipboardData.getData('text')||'').replace(/[^0-9]/g,'').split('');
+    arr.forEach((el,idx)=>{ el.value = digits[idx]||''; });
+    const next = arr[Math.min(digits.length,arr.length-1)];
+    if(next) next.focus();
+  });
+});
+function startResendTimer(){
+  let seconds = 30;
+  const btn = document.getElementById('resendBtn');
+  btn.classList.add('disabled');
+  btn.textContent = `আবার পাঠান (${bnDigits(seconds)}s)`;
+  if(resendTimer) clearInterval(resendTimer);
+  resendTimer = setInterval(()=>{
+    seconds--;
+    if(seconds<=0){
+      clearInterval(resendTimer);
+      btn.classList.remove('disabled');
+      btn.textContent = 'আবার পাঠান';
+    } else {
+      btn.textContent = `আবার পাঠান (${bnDigits(seconds)}s)`;
+    }
+  }, 1000);
+}
+function resendOtp(){
+  const btn = document.getElementById('resendBtn');
+  if(btn.classList.contains('disabled')) return;
+  toast('নতুন কোড পাঠানো হয়েছে','success');
+  startResendTimer();
+}
+function doLogin(){
+  const otpInputs = document.querySelectorAll('#scr-loginOtp .otp-row input');
+  const code = Array.from(otpInputs).map(i=>i.value).join('');
+  otpInputs.forEach(i=>i.classList.remove('otp-error'));
+  if(code.length < 6){
+    toast('সম্পূর্ণ ৬ সংখ্যার OTP কোড দিন','error');
+    otpInputs.forEach(i=>{ if(!i.value) i.classList.add('otp-error'); });
+    const firstEmpty = Array.from(otpInputs).find(i=>!i.value);
+    if(firstEmpty) firstEmpty.focus();
+    return;
+  }
+  toast(authMode==='register' ? 'অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে' : 'সফলভাবে লগইন হয়েছে','success');
+  setTimeout(()=>{ showScreen('apply'); renderStep(); }, 550);
+}
+function restartApp(){
+  currentStep = 1;
+  errors = {};
+  Object.assign(appData, defaultAppData());
+  document.getElementById('loginPhone').value='';
+  document.getElementById('registerName').value='';
+  setAuthMode('login');
+  showScreen('loginPhone');
+}
+
+/* ===================== APPLICATION FLOW ===================== */
+const totalSteps = 6;
+const stepTitles = ['মৌলিক তথ্য','ব্যক্তিগত তথ্য','ঋণের প্রয়োজনীয়তা','আর্থিক তথ্য','পরিচয় যাচাই','পর্যালোচনা'];
+function defaultAppData(){
+  return {
+    profession:'', income:'', education:'', marital:'', district:'',
+    father:'', mother:'', nid:'', currentAddr:'', permAddr:'',
+    loanType:'', loanAmount:50000, loanTenure:12, loanPurpose:'', repayType:'',
+    bank:'', accType:'', accNumber:'', monthlyExpense:'', otherLoans:'',
+    kycFront:false, kycBack:false, kycFace:false,
+    agree:false
+  };
+}
+let currentStep = 1;
+let appData = defaultAppData();
+let faceScanTimer = null;
+
+function estimateEmi(amount, tenure){
+  const monthlyRate = 0.12/12;
+  return amount * monthlyRate * Math.pow(1+monthlyRate, tenure) / (Math.pow(1+monthlyRate, tenure)-1);
+}
+
+function renderSegProgress(){
+  let html = '';
+  for(let i=1;i<=totalSteps;i++){
+    let cls = i<currentStep?'done':(i===currentStep?'current':'');
+    html += `<i class="${cls}"></i>`;
+  }
+  document.getElementById('segProgress').innerHTML = html;
+  document.getElementById('applyNavStep').textContent = `${bnDigits(currentStep)} / ${bnDigits(totalSteps)}`;
+  document.getElementById('applyNavTitle').textContent = stepTitles[currentStep-1];
+}
+
+let errors = {};
+const stepFieldMap = {
+  1: ['profession','income','education','marital','district'],
+  2: ['father','mother','nid','currentAddr','permAddr'],
+  3: ['loanType','loanPurpose','repayType'],
+  4: ['bank','accType','accNumber','monthlyExpense','otherLoans'],
+  5: ['kycFront','kycBack','kycFace'],
+  6: ['agree']
+};
+const validators = {
+  profession: ()=> appData.profession ? null : 'পেশার ধরন নির্বাচন করুন',
+  income: ()=>{
+    const v=(appData.income||'').toString().trim();
+    if(!v) return 'মাসিক আয়ের পরিমাণ লিখুন';
+    if(!/^\d+$/.test(v)) return 'শুধুমাত্র সংখ্যা লিখুন (৳ বা কমা ছাড়া)';
+    if(+v < 1000) return 'সঠিক মাসিক আয়ের পরিমাণ লিখুন';
+    return null;
+  },
+  education: ()=> appData.education ? null : 'শিক্ষাগত যোগ্যতা নির্বাচন করুন',
+  marital: ()=> appData.marital ? null : 'বৈবাহিক অবস্থা নির্বাচন করুন',
+  district: ()=>{
+    const v=(appData.district||'').trim();
+    if(!v) return 'জেলা / শহরের নাম লিখুন';
+    if(v.length<2) return 'সঠিক জেলা / শহরের নাম লিখুন';
+    return null;
+  },
+  father: ()=>{
+    const v=(appData.father||'').trim();
+    if(!v) return 'পিতার নাম লিখুন';
+    if(v.length<2) return 'সঠিক নাম লিখুন';
+    return null;
+  },
+  mother: ()=>{
+    const v=(appData.mother||'').trim();
+    if(!v) return 'মাতার নাম লিখুন';
+    if(v.length<2) return 'সঠিক নাম লিখুন';
+    return null;
+  },
+  nid: ()=>{
+    const v=(appData.nid||'').trim();
+    if(!v) return 'জাতীয় পরিচয়পত্র (NID) নম্বর লিখুন';
+    if(!/^\d+$/.test(v)) return 'NID নম্বরে শুধুমাত্র সংখ্যা থাকতে হবে';
+    if(![10,13,17].includes(v.length)) return `NID নম্বর অবশ্যই ১০, ১৩ অথবা ১৭ সংখ্যার হতে হবে — বর্তমানে ${bnDigits(v.length)} সংখ্যা দেওয়া আছে`;
+    return null;
+  },
+  currentAddr: ()=>{
+    const v=(appData.currentAddr||'').trim();
+    if(!v) return 'বর্তমান ঠিকানা লিখুন';
+    if(v.length<8) return 'সম্পূর্ণ ঠিকানা লিখুন (বাসা, রোড, এলাকাসহ)';
+    return null;
+  },
+  permAddr: ()=>{
+    const v=(appData.permAddr||'').trim();
+    if(!v) return 'স্থায়ী ঠিকানা লিখুন';
+    if(v.length<8) return 'সম্পূর্ণ ঠিকানা লিখুন (বাসা, রোড, এলাকাসহ)';
+    return null;
+  },
+  loanType: ()=> appData.loanType ? null : 'ঋণের ধরন নির্বাচন করুন',
+  loanPurpose: ()=>{
+    const v=(appData.loanPurpose||'').trim();
+    if(!v) return 'ঋণের উদ্দেশ্য লিখুন';
+    if(v.length<5) return 'ঋণের উদ্দেশ্য বিস্তারিত লিখুন';
+    return null;
+  },
+  repayType: ()=> appData.repayType ? null : 'পরিশোধের ধরন নির্বাচন করুন',
+  bank: ()=>{
+    const v=(appData.bank||'').trim();
+    if(!v) return 'ব্যাংক / মোবাইল ফাইন্যান্সিয়াল সার্ভিসের নাম লিখুন';
+    return null;
+  },
+  accType: ()=> appData.accType ? null : 'অ্যাকাউন্টের ধরন নির্বাচন করুন',
+  accNumber: ()=>{
+    const v=(appData.accNumber||'').trim();
+    if(!v) return 'অ্যাকাউন্ট নম্বর লিখুন';
+    if(!/^\d+$/.test(v)) return 'অ্যাকাউন্ট নম্বরে শুধুমাত্র সংখ্যা থাকতে হবে';
+    if(v.length<5) return 'সঠিক অ্যাকাউন্ট নম্বর লিখুন (কমপক্ষে ৫ সংখ্যা)';
+    return null;
+  },
+  monthlyExpense: ()=>{
+    const v=(appData.monthlyExpense||'').trim();
+    if(!v) return 'মাসিক ব্যয়ের পরিমাণ লিখুন';
+    if(!/^\d+$/.test(v)) return 'শুধুমাত্র সংখ্যা লিখুন (৳ বা কমা ছাড়া)';
+    return null;
+  },
+  otherLoans: ()=> appData.otherLoans ? null : 'একটি অপশন নির্বাচন করুন',
+  kycFront: ()=> appData.kycFront ? null : 'NID সামনের অংশের ছবি আপলোড করুন',
+  kycBack: ()=> appData.kycBack ? null : 'NID পেছনের অংশের ছবি আপলোড করুন',
+  kycFace: ()=> appData.kycFace ? null : 'ফেস ভেরিফিকেশন সম্পন্ন করুন',
+  agree: ()=> appData.agree ? null : 'শর্তাবলীতে সম্মতি দেওয়া আবশ্যক'
+};
+function getStepErrors(step){
+  const errs = {};
+  (stepFieldMap[step]||[]).forEach(k=>{
+    const msg = validators[k] ? validators[k]() : null;
+    if(msg) errs[k] = msg;
+  });
+  return errs;
+}
+function field(key, label, innerHtml){
+  const err = errors[key];
+  return `<div class="field${err?' has-error':''}" id="field-${key}">
+    <label>${label}</label>
+    ${innerHtml}
+    ${err?`<div class="field-error-msg">${errIcon()}<span>${err}</span></div>`:''}
+  </div>`;
+}
+function liveField(key, value){
+  appData[key] = value;
+  if(errors[key]){
+    const msg = validators[key] ? validators[key]() : null;
+    const wrap = document.getElementById('field-'+key);
+    if(!msg){
+      delete errors[key];
+      if(wrap){ wrap.classList.remove('has-error'); const em = wrap.querySelector('.field-error-msg'); if(em) em.remove(); }
+    } else if(wrap){
+      const em = wrap.querySelector('.field-error-msg');
+      if(em) em.innerHTML = errIcon()+'<span>'+msg+'</span>';
+    }
+  }
+  updateCtaState();
+}
+function updateCtaState(){
+  const btn = document.querySelector('#applyCta button');
+  if(btn) btn.disabled = !stepIsValid();
+}
+function choiceGroup(name, options, selected){
+  const hasError = !!errors[name];
+  return `<div class="choice-grid${hasError?' has-error':''}">${options.map(o=>`
+    <div class="choice-card ${selected===o?'selected':''}" onclick="selectChoice('${name}','${o}')">${o}</div>`).join('')}</div>`;
+}
+function selectChoice(name, value){
+  appData[name] = value;
+  delete errors[name];
+  renderStep();
+}
+function updateLoanAmt(v){ appData.loanAmount = +v; renderStep(true); }
+function updateLoanTenure(v){ appData.loanTenure = +v; renderStep(true); }
+
+function captureStepInputs(){
+  const g = id => document.getElementById(id);
+  if(currentStep===1){ if(g('f-income')) appData.income=g('f-income').value; if(g('f-district')) appData.district=g('f-district').value; }
+  if(currentStep===2){
+    if(g('f-father')) appData.father=g('f-father').value;
+    if(g('f-mother')) appData.mother=g('f-mother').value;
+    if(g('f-nid')) appData.nid=g('f-nid').value;
+    if(g('f-caddr')) appData.currentAddr=g('f-caddr').value;
+    if(g('f-paddr')) appData.permAddr=g('f-paddr').value;
+  }
+  if(currentStep===3){ if(g('f-purpose')) appData.loanPurpose=g('f-purpose').value; }
+  if(currentStep===4){
+    if(g('f-bank')) appData.bank=g('f-bank').value;
+    if(g('f-accnum')) appData.accNumber=g('f-accnum').value;
+    if(g('f-expense')) appData.monthlyExpense=g('f-expense').value;
+  }
+}
+
+function stepIsValid(){
+  return Object.keys(getStepErrors(currentStep)).length === 0;
+}
+
+function renderStep(preserveScroll){
+  renderSegProgress();
+  const c = document.getElementById('stepContent');
+  const cta = document.getElementById('applyCta');
+  const scrollY = preserveScroll ? c.scrollTop : 0;
+  let html = '';
+
+  if(currentStep===1){
+    html = field('profession','পেশার ধরন', choiceGroup('profession',['চাকরিজীবী','ব্যবসায়ী','স্বনির্ভর','অন্যান্য'], appData.profession))
+      + field('income','মাসিক আয়', `<input type="text" id="f-income" placeholder="৳ পরিমাণ লিখুন" value="${appData.income}" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,''); liveField('income', this.value)">`)
+      + field('education','শিক্ষাগত যোগ্যতা', choiceGroup('education',['এসএসসি','এইচএসসি','স্নাতক','স্নাতকোত্তর'], appData.education))
+      + field('marital','বৈবাহিক অবস্থা', choiceGroup('marital',['অবিবাহিত','বিবাহিত'], appData.marital))
+      + field('district','জেলা / শহর', `<input type="text" id="f-district" placeholder="যেমনঃ চট্টগ্রাম" value="${appData.district}" oninput="liveField('district', this.value)">`);
+  }
+  else if(currentStep===2){
+    html = field('father','পিতার নাম', `<input type="text" id="f-father" value="${appData.father}" oninput="liveField('father', this.value)">`)
+      + field('mother','মাতার নাম', `<input type="text" id="f-mother" value="${appData.mother}" oninput="liveField('mother', this.value)">`)
+      + field('nid','জাতীয় পরিচয়পত্র নম্বর', `<input type="text" id="f-nid" placeholder="১০/১৩/১৭ সংখ্যার NID নম্বর" value="${appData.nid}" inputmode="numeric" maxlength="17" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,17); liveField('nid', this.value)">`)
+      + field('currentAddr','বর্তমান ঠিকানা', `<textarea id="f-caddr" placeholder="বাসা, রোড, এলাকা" oninput="liveField('currentAddr', this.value)">${appData.currentAddr}</textarea>`)
+      + field('permAddr','স্থায়ী ঠিকানা', `<textarea id="f-paddr" placeholder="বাসা, রোড, এলাকা" oninput="liveField('permAddr', this.value)">${appData.permAddr}</textarea>`);
+  }
+  else if(currentStep===3){
+    const emi = estimateEmi(appData.loanAmount, appData.loanTenure);
+    html = field('loanType','ঋণের ধরন', choiceGroup('loanType',['সহজ ঋণ','ব্যবসায়িক ঋণ','জরুরি ঋণ'], appData.loanType))
+      + `<div class="field">
+        <label>প্রয়োজনীয় ঋণের পরিমাণ</label>
+        <div class="range-current">৳${bnNum(appData.loanAmount)}</div>
+        <input type="range" min="10000" max="100000" step="5000" value="${appData.loanAmount}" oninput="updateLoanAmt(this.value)">
+        <div class="range-value"><span>৳১০,০০০</span><span>৳১,০০,০০০</span></div>
+      </div>
+      <div class="field">
+        <label>ঋণের মেয়াদ</label>
+        <div class="range-current">${bnDigits(appData.loanTenure)} মাস</div>
+        <input type="range" min="3" max="24" step="1" value="${appData.loanTenure}" oninput="updateLoanTenure(this.value)">
+        <div class="range-value"><span>৩ মাস</span><span>২৪ মাস</span></div>
+      </div>`
+      + field('loanPurpose','ঋণের উদ্দেশ্য', `<textarea id="f-purpose" placeholder="সংক্ষেপে লিখুন" oninput="liveField('loanPurpose', this.value)">${appData.loanPurpose}</textarea>`)
+      + field('repayType','পরিশোধের ধরন', choiceGroup('repayType',['মাসিক কিস্তি','এককালীন'], appData.repayType))
+      + `<div class="emi-card">
+        <div class="emi-row"><span>আনুমানিক মাসিক কিস্তি</span><b>৳${bnNum(emi)}</b></div>
+        <div class="emi-row total"><span>মোট পরিশোধযোগ্য</span><b>৳${bnNum(emi*appData.loanTenure)}</b></div>
+      </div>`;
+  }
+  else if(currentStep===4){
+    html = field('bank','ব্যাংক / মোবাইল ফাইন্যান্সিয়াল সার্ভিস', `<input type="text" id="f-bank" placeholder="যেমনঃ বিকাশ, ডাচ-বাংলা ব্যাংক" value="${appData.bank}" oninput="liveField('bank', this.value)">`)
+      + field('accType','অ্যাকাউন্টের ধরন', choiceGroup('accType',['সেভিংস','কারেন্ট','মোবাইল ব্যাংকিং'], appData.accType))
+      + field('accNumber','অ্যাকাউন্ট নম্বর', `<input type="text" id="f-accnum" value="${appData.accNumber}" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,''); liveField('accNumber', this.value)">`)
+      + field('monthlyExpense','মাসিক ব্যয়', `<input type="text" id="f-expense" placeholder="৳ পরিমাণ লিখুন" value="${appData.monthlyExpense}" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,''); liveField('monthlyExpense', this.value)">`)
+      + field('otherLoans','অন্যান্য ঋণ আছে কি?', choiceGroup('otherLoans',['হ্যাঁ','না'], appData.otherLoans));
+  }
+  else if(currentStep===5){
+    html = `<p style="font-size:13px; color:var(--wv-text-secondary); margin-bottom:16px;">এটি আবেদনের শেষ ও সবচেয়ে গুরুত্বপূর্ণ ধাপ — আপনার পরিচয় যাচাই করা হবে (ডেমো — কোনো ফাইল বা ছবি প্রকৃতপক্ষে সংরক্ষণ হয় না)</p>
+
+      <div class="kyc-section-label">জাতীয় পরিচয়পত্র</div>
+      <div class="upload-card ${appData.kycFront?'done':''}" onclick="mockUpload('kycFront')">
+        <div class="upload-thumb">${uploadThumbIcon(appData.kycFront)}</div>
+        <div class="upload-text">
+          <div class="u-title">${appData.kycFront?'সামনের অংশ আপলোড হয়েছে':'NID সামনের অংশ'}</div>
+          <div class="u-sub">${appData.kycFront?'যাচাইয়ের জন্য প্রস্তুত':'JPG, PNG (সর্বোচ্চ ৫MB)'}</div>
+        </div>
+        <div class="upload-chev">${appData.kycFront?checkChev():arrowChev()}</div>
+      </div>
+      <div class="upload-card ${appData.kycBack?'done':''}" onclick="mockUpload('kycBack')">
+        <div class="upload-thumb">${uploadThumbIcon(appData.kycBack)}</div>
+        <div class="upload-text">
+          <div class="u-title">${appData.kycBack?'পেছনের অংশ আপলোড হয়েছে':'NID পেছনের অংশ'}</div>
+          <div class="u-sub">${appData.kycBack?'যাচাইয়ের জন্য প্রস্তুত':'JPG, PNG (সর্বোচ্চ ৫MB)'}</div>
+        </div>
+        <div class="upload-chev">${appData.kycBack?checkChev():arrowChev()}</div>
+      </div>
+
+      <div class="kyc-section-label">ফেস ভেরিফিকেশন</div>
+      <div class="face-panel">
+        <div class="face-ring-wrap">
+          <div class="face-ring ${appData.kycFace?'done':''}" id="faceRing">
+            <div class="face-scan-arc"></div>
+            ${appData.kycFace
+              ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="m5 13 4 4L19 7"/></svg>`
+              : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 5-6 8-6s6.5 2 8 6"/></svg>`
+            }
+          </div>
+        </div>
+        <div class="face-status" id="faceStatus">${appData.kycFace?'যাচাই সম্পন্ন হয়েছে':'মুখ শনাক্তকরণ প্রয়োজন'}</div>
+        <div class="face-hint" id="faceHint">${appData.kycFace?'আপনার পরিচয় নিশ্চিত করা হয়েছে':'ক্যামেরার দিকে সরাসরি তাকান'}</div>
+        ${!appData.kycFace ? `
+        <div class="face-tips">
+          <div class="face-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>সরাসরি তাকান</div>
+          <div class="face-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M3 12h18"/></svg>উজ্জ্বল আলো</div>
+          <div class="face-tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/></svg>চশমা খুলুন</div>
+        </div>
+        <button class="face-scan-btn" onclick="startFaceScan()">স্ক্যান শুরু করুন</button>` : ''}
+      </div>`;
+  }
+  else if(currentStep===6){
+    const emi = estimateEmi(appData.loanAmount, appData.loanTenure);
+    html = `<div class="review-block">
+        <div class="review-block-head"><h4>মৌলিক ও ব্যক্তিগত তথ্য</h4><button onclick="jumpToStep(1)">পরিবর্তন</button></div>
+        <div class="review-line">পেশা: ${appData.profession||'—'} • জেলা: ${appData.district||'—'}</div>
+        <div class="review-line">NID: ${appData.nid||'—'}</div>
+        <div class="review-line">ঠিকানা: ${appData.currentAddr||'—'}</div>
+      </div>
+      <div class="review-block">
+        <div class="review-block-head"><h4>ঋণের তথ্য</h4><button onclick="jumpToStep(3)">পরিবর্তন</button></div>
+        <div class="review-line">${appData.loanType||'—'} • ৳${bnNum(appData.loanAmount)} • ${bnDigits(appData.loanTenure)} মাস</div>
+        <div class="review-line">আনুমানিক মাসিক কিস্তি: ৳${bnNum(emi)}</div>
+      </div>
+      <div class="review-block">
+        <div class="review-block-head"><h4>আর্থিক তথ্য</h4><button onclick="jumpToStep(4)">পরিবর্তন</button></div>
+        <div class="review-line">${appData.bank||'—'} • ${appData.accType||'—'}</div>
+      </div>
+      <div class="review-block">
+        <div class="review-block-head"><h4>পরিচয় যাচাই</h4><button onclick="jumpToStep(5)">পরিবর্তন</button></div>
+        <div class="review-line">NID সামনে ✓ • NID পেছনে ✓ • ফেস ভেরিফিকেশন ✓</div>
+      </div>
+      <div id="field-agree">
+        <label class="checkbox-row">
+          <input type="checkbox" id="f-agree" ${appData.agree?'checked':''} onchange="appData.agree=this.checked; delete errors.agree; renderStep(true)">
+          <span>আমি প্রদত্ত সকল তথ্য সঠিক বলে নিশ্চিত করছি এবং শর্তাবলীতে সম্মত।</span>
+        </label>
+        ${errors.agree?`<div class="field-error-msg">${errIcon()}<span>${errors.agree}</span></div>`:''}
+      </div>`;
+  }
+
+  c.innerHTML = html;
+  if(preserveScroll) c.scrollTop = scrollY;
+
+  const valid = stepIsValid();
+  if(currentStep<totalSteps){
+    cta.innerHTML = `<button class="btn btn-primary btn-block" ${!valid?'disabled':''} onclick="nextStep()">পরবর্তী ধাপ</button>`;
+  } else {
+    cta.innerHTML = `<button class="btn btn-primary btn-block" ${!valid?'disabled':''} onclick="submitApplication()">আবেদন জমা দিন</button>`;
+  }
+}
+
+function uploadThumbIcon(done){
+  return done
+    ? `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="m5 13 4 4L19 7"/></svg>`
+    : `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>`;
+}
+function arrowChev(){ return `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>`; }
+function checkChev(){ return `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--wv-success)" stroke-width="2.6"><path d="m5 13 4 4L19 7"/></svg>`; }
+
+function mockUpload(key){
+  appData[key] = true;
+  toast('ডকুমেন্ট আপলোড হয়েছে (ডেমো)','success');
+  renderStep(true);
+}
+
+function startFaceScan(){
+  if(faceScanTimer) clearTimeout(faceScanTimer);
+  const ring = document.getElementById('faceRing');
+  const status = document.getElementById('faceStatus');
+  const hint = document.getElementById('faceHint');
+  if(!ring) return;
+  ring.classList.add('scanning');
+  status.textContent = 'স্ক্যান করা হচ্ছে…';
+  hint.textContent = 'নড়াচড়া করবেন না';
+  faceScanTimer = setTimeout(()=>{
+    appData.kycFace = true;
+    toast('ফেস ভেরিফিকেশন সম্পন্ন হয়েছে','success');
+    renderStep(true);
+  }, 2200);
+}
+
+function jumpToStep(n){ captureStepInputs(); errors = {}; currentStep = n; renderStep(); document.getElementById('stepContent').scrollTop = 0; }
+function nextStep(){
+  captureStepInputs();
+  const stepErrs = getStepErrors(currentStep);
+  const errKeys = Object.keys(stepErrs);
+
+  if(errKeys.length){
+    errors = stepErrs;
+    renderStep(true);
+    const firstKey = (stepFieldMap[currentStep]||[]).find(k=>stepErrs[k]);
+    toast(stepErrs[firstKey],'error');
+    const target = document.getElementById('field-'+firstKey);
+    if(target){
+      target.scrollIntoView({behavior:'smooth', block:'center'});
+      const focusable = target.querySelector('input, textarea');
+      if(focusable) setTimeout(()=>focusable.focus(), 250);
+    }
+    return;
+  }
+
+  errors = {};
+  if(currentStep<totalSteps){ currentStep++; renderStep(); document.getElementById('stepContent').scrollTop = 0; }
+}
+function prevStep(){
+  captureStepInputs();
+  errors = {};
+  if(currentStep>1){ currentStep--; renderStep(); document.getElementById('stepContent').scrollTop = 0; }
+  else { showScreen('loginOtp'); showScreen('loginPhone'); }
+}
+function submitApplication(){
+  const stepErrs = getStepErrors(6);
+  if(Object.keys(stepErrs).length){
+    errors = stepErrs;
+    renderStep(true);
+    toast(stepErrs.agree || 'তথ্য সঠিক বলে নিশ্চিত করুন','error');
+    return;
+  }
+  const id = 'LN-2026-' + Math.floor(100000+Math.random()*899999);
+  document.getElementById('successAppId').textContent = id;
+  toast('আবেদন সফলভাবে জমা হয়েছে','success');
+  setTimeout(()=>showScreen('success'), 450);
+}
+
+/* init */
+renderStep();
+</script>
+</body>
+</html>
